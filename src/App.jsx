@@ -1,25 +1,31 @@
-import axiosInterface from "./api/axios";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createRoutesFromElements,
+} from "react-router-dom";
+import RootLayout from "./layouts/rootLayout";
+import Home from "./pages/Home";
+import SignIn from "./pages/signIn";
+import SignUp from "./pages/signUp";
+import Settings from "./pages/settings";
+import Editor from "./pages/editor";
+import Profile from "./pages/profile";
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<RootLayout />}>
+      <Route index element={<Home />}></Route>
+      <Route path="login" element={<SignIn />}></Route>
+      <Route path="register" element={<SignUp />}></Route>
+      <Route path="settings" element={<Settings />}></Route>
+      <Route path="profile" element={<Profile />}></Route>
+      <Route path="editor" element={<Editor />}></Route>
+    </Route>
+  )
+);
 function App() {
-  async function getArticles() {
-    const articles = await axiosInterface.normalInterface.get("/articles");
-    console.log(articles.data);
-  }
-
-  return (
-    <>
-      <div className="bg-blue-500 w-full h-full flex items-center justify-center">
-        <button
-          className="bg-slate-600 rounded-full py-4 px-6 text-3xl hover:bg-red-950 "
-          onClick={() => {
-            getArticles();
-          }}
-        >
-          Auth
-        </button>
-      </div>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
