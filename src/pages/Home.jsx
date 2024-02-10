@@ -5,10 +5,9 @@ function Home() {
     await axiosInterface.authorizedInterface.get("/user");
   }
   return (
-    <div>
-      Home
+    <div className="p-11">
       <button
-        className="bg-red-500 rounder-full px-4 py-8"
+        className="bg-red-500 rounded-full px-8 py-4"
         onClick={unauthorized}
       >
         Testing

@@ -1,7 +1,19 @@
 import axiosInterface from "../helpers/axios";
 
-export function login() {}
+export async function login(loginObject) {
+  response = await axiosInterface.normalInterface.post(
+    "/users/login",
+    loginObject
+  );
+  console.log(response);
+}
 
-export function logout() {}
+export async function logout() {}
 
-export function register() {}
+export async function register(registerObject) {
+  response = await axiosInterface.normalInterface.post(
+    "/users",
+    registerObject
+  );
+  console.log(response);
+}

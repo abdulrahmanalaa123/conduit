@@ -3,3 +3,5 @@ function RegisterObject(username, email, password) {
   this.password = password ? password : "";
   this.email = email ? email : "";
 }
+
+export default RegisterObject;
