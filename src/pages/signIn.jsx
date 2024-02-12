@@ -1,24 +1,67 @@
 import { Link } from "react-router-dom";
+import LoginObject from "../Models/LoginObject";
+import { login } from "../api/authenticationApi";
+import { useForm } from "react-hook-form";
 
 function SignIn() {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm({ mode: onSubmit, reValidateMode: onSubmit });
+
+  async function onSubmit(data) {
+    const loginPayLoad = new LoginObject(data.email, data.password);
+    try {
+      await login(loginPayLoad);
+    } catch (error) {
+      setError("root", {
+        message: "Invalid Email or Password",
+      });
+    }
+  }
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4 p-8 ">
       <p className="text-slate-500 text-3xl font-bold">SignIn</p>
       <Link to="/register" className="text-red-500 hover:underline">
         Need an Account?
       </Link>
-      <form action="register " className="flex flex-col gap-4 w-[30%] h-52">
+
+      <form
+        action="register "
+        className="flex flex-col gap-4 w-[30%] "
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        {errors.root && <p className="text-red-500">{errors.root.message}</p>}
+        {(errors.email?.type === "required" ||
+          errors.password?.type == "required") && (
+          <p className="text-red-500">
+            Cant Leave Either email or Password Blank
+          </p>
+        )}
+        {errors.email && errors.email.type !== "required" && (
+          <p className="text-red-500">{errors.email.message}</p>
+        )}
+        {errors.passowrd && errors.password.type !== "required" && (
+          <p className="text-red-500">{errors.password.message}</p>
+        )}
         <input
           type="text"
+          {...register("email", { required: true })}
           placeholder="Email"
-          className="border-2 border-red-500 flex-auto rounded-md px-4"
+          className="border-2 border-red-500 w-full rounded-md px-4 h-14"
         />
         <input
           type="password"
+          {...register("password", { required: true })}
           placeholder="Password"
-          className="border-2 border-red-500 flex-auto rounded-md px-4"
+          className="border-2 border-red-500 w-full rounded-md px-4 h-14"
         />
-        <button className="self-end text-xl bg-red-500 text-slate-500 font-bold px-6 py-3 rounded-md">
+        <button
+          disabled={isSubmitting}
+          className="self-end text-xl bg-red-500 text-slate-500 font-bold px-6 py-3 rounded-md"
+        >
           SignIn
         </button>
       </form>

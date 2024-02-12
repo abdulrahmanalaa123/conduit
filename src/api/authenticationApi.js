@@ -1,7 +1,7 @@
 import axiosInterface from "../helpers/axios";
 
 export async function login(loginObject) {
-  response = await axiosInterface.normalInterface.post(
+  const response = await axiosInterface.normalInterface.post(
     "/users/login",
     loginObject
   );
