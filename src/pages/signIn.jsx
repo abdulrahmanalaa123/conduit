@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import LoginObject from "../Models/LoginObject";
 import { login } from "../api/authenticationApi";
 import { useForm } from "react-hook-form";
 
@@ -12,12 +11,17 @@ function SignIn() {
   } = useForm({ mode: onSubmit, reValidateMode: onSubmit });
 
   async function onSubmit(data) {
-    const loginPayLoad = new LoginObject(data.email, data.password);
     try {
-      await login(loginPayLoad);
+      console.log(data);
+      await login(data);
     } catch (error) {
+      const errorList = [];
+      for (const errorType in error.errors) {
+        errorList.push(`${errorType} ${error.errors[errorType][0]}`);
+      }
+
       setError("root", {
-        message: "Invalid Email or Password",
+        message: errorList,
       });
     }
   }
@@ -36,22 +40,27 @@ function SignIn() {
         className="flex flex-col gap-4 w-[30%] "
         onSubmit={handleSubmit(onSubmit)}
       >
-        {errors.root && <p className="text-red-500">{errors.root.message}</p>}
-        {(errors.email?.type === "required" ||
-          errors.password?.type == "required") && (
+        {errors.root &&
+          errors.root.message.map((error, index) => (
+            <p key={index} className=" text-red-500">
+              {error}
+            </p>
+          ))}
+        {(errors.user?.email?.type === "required" ||
+          errors.user?.password?.type == "required") && (
           <p className="text-red-500">
             Cant Leave Either email or Password Blank
           </p>
         )}
-        {errors.email && errors.email.type !== "required" && (
-          <p className="text-red-500">{errors.email.message}</p>
+        {errors.user?.email && errors.user?.email.type !== "required" && (
+          <p className="text-red-500">{errors.user?.email.message}</p>
         )}
-        {errors.password && errors.password.type !== "required" && (
-          <p className="text-red-500">{errors.password.message}</p>
+        {errors.user?.password && errors.user?.password.type !== "required" && (
+          <p className="text-red-500">{errors.user?.password.message}</p>
         )}
         <input
           type="text"
-          {...register("email", {
+          {...register("user.email", {
             required: true,
             validate: (value) => {
               if (!value.includes("@")) {
@@ -65,7 +74,7 @@ function SignIn() {
         />
         <input
           type="password"
-          {...register("password", {
+          {...register("user.password", {
             required: true,
             minLength: {
               value: 8,
