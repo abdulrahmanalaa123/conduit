@@ -21,6 +21,9 @@ function SignIn() {
       });
     }
   }
+
+  //i couldve not used the login object but ill keep it for educational purposes i couldve named my email user.email and password
+  // user.password in react hook form and wouldve achieved the same results
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4 p-8 ">
       <p className="text-slate-500 text-3xl font-bold">SignIn</p>
@@ -43,24 +46,39 @@ function SignIn() {
         {errors.email && errors.email.type !== "required" && (
           <p className="text-red-500">{errors.email.message}</p>
         )}
-        {errors.passowrd && errors.password.type !== "required" && (
+        {errors.password && errors.password.type !== "required" && (
           <p className="text-red-500">{errors.password.message}</p>
         )}
         <input
           type="text"
-          {...register("email", { required: true })}
+          {...register("email", {
+            required: true,
+            validate: (value) => {
+              if (!value.includes("@")) {
+                return "emails must include @";
+              }
+              return true;
+            },
+          })}
           placeholder="Email"
           className="border-2 border-red-500 w-full rounded-md px-4 h-14"
         />
         <input
           type="password"
-          {...register("password", { required: true })}
+          {...register("password", {
+            required: true,
+            minLength: {
+              value: 8,
+              message: "Password must have at least 8 characters",
+            },
+          })}
           placeholder="Password"
           className="border-2 border-red-500 w-full rounded-md px-4 h-14"
         />
+
         <button
           disabled={isSubmitting}
-          className="self-end text-xl bg-red-500 text-slate-500 font-bold px-6 py-3 rounded-md"
+          className="self-end text-xl disabled:bg-blue-500 bg-red-500 text-slate-500 font-bold px-6 py-3 rounded-md"
         >
           SignIn
         </button>
