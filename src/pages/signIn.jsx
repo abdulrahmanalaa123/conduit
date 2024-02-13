@@ -12,7 +12,6 @@ function SignIn() {
 
   async function onSubmit(data) {
     try {
-      console.log(data);
       await login(data);
     } catch (error) {
       const errorList = [];

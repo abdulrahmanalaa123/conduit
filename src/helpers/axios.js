@@ -1,4 +1,5 @@
 import axios from "axios";
+// import useAuthStore from "../context/authContext";
 
 const axiosInterface = {
   authorizedInterface: axios.create({
@@ -7,27 +8,35 @@ const axiosInterface = {
   normalInterface: axios.create({
     baseURL: "https://api.realworld.io/api",
   }),
+  // should be private but idk how
+  tokenInterceptor: null,
   //   might need seperation of concerns but fuck it
   //   setToken must be set before using the authorizedInterface as one
   setToken: function (token) {
-    this.authorizedInterface.interceptors.request.use((config) => {
-      config.headers["Authorization"] = token;
-      localStorage.setItem("token", token);
-    });
+    const tokenInterceptor = this.authorizedInterface.interceptors.request.use(
+      (config) => {
+        //well the current version works and using this would mean i would have to deal with null check so the current version is easier for me to implement so fuck it
+        // config.headers["Authorization"] = `Token ${
+        //   useAuthStore.getState().identification.token
+        // }`;
+        config.headers["Authorization"] = `Token ${token}`;
+        return config;
+      }
+    );
+    this.tokenInterceptor = tokenInterceptor;
   },
   nullifyToken: function () {
-    this.authorizedInterface.interceptors.request.use((config) => {
-      config.headers["Authorization"] = null;
-      localStorage.removeItem("token");
-    });
+    this.authorizedInterface.interceptors.request.eject(this.tokenInterceptor);
   },
   setupNavigationInterceptor: function (navigate) {
     this.authorizedInterface.interceptors.response.use(
-      (response) => response,
+      (response) => {
+        console.log(response);
+        return response;
+      },
       (error) => {
+        console.log(error.response);
         if (error.response.status == 401) {
-          this.nullifyToken();
-          console.log(localStorage.getItem("token"));
           navigate("/register");
         }
       }

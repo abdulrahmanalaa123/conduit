@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import axiosInterface from "../helpers/axios";
+import { logout } from "../api/authenticationApi";
+
 function RootLayout() {
   const navigate = useNavigate();
   // setting up a register navigation once starting the app since this is the first page
@@ -37,6 +39,12 @@ function RootLayout() {
             >
               SignUp
             </NavLink>
+            <button
+              className=" rounded-full px-4  bg-red-50  "
+              onClick={() => logout()}
+            >
+              Logout
+            </button>
           </ul>
         </nav>
       </header>
