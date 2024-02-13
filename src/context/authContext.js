@@ -20,8 +20,8 @@ const useAuthStore = create(
         console.log("token set to: ", token);
       },
       deleteIdentification: () => {
-        console.log("deleting token");
         if (get().identification) {
+          console.log("deleting token");
           set(() => ({
             identification: null,
           }));

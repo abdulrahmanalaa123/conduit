@@ -31,11 +31,9 @@ const axiosInterface = {
   setupNavigationInterceptor: function (navigate) {
     this.authorizedInterface.interceptors.response.use(
       (response) => {
-        console.log(response);
         return response;
       },
       (error) => {
-        console.log(error.response);
         if (error.response.status == 401) {
           navigate("/register");
         }
