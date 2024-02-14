@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import axiosInterface from "../helpers/axios";
+import axiosInterface from "../lib/axios";
 // first version of zustand token state is using zustand with persistent and setting the token from inside zustand
 // next version is using the token on persisting and savign it with local storage and calling zustand on all the interfaces
 // third version which if it doesnt work iwill be called on local storage and the interfaces will call on local storage to see if it changes
@@ -9,14 +9,10 @@ import axiosInterface from "../helpers/axios";
 const useAuthStore = create(
   persist(
     (set, get) => ({
-      identification: {
-        token: null,
-        username: null,
-      },
+      identification: null,
 
       setIdentification: (token, username) => {
         set(() => ({ identification: { token: token, username: username } }));
-        axiosInterface.setToken(token);
         console.log("token set to: ", token);
       },
       deleteIdentification: () => {
@@ -25,7 +21,6 @@ const useAuthStore = create(
           set(() => ({
             identification: null,
           }));
-          axiosInterface.nullifyToken();
         }
       },
     }),

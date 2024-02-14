@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
-import axiosInterface from "../helpers/axios";
+import { setupNavigationInterceptor } from "../lib/axios";
 import { logout } from "../api/authenticationApi";
 
 function RootLayout() {
   const navigate = useNavigate();
   // setting up a register navigation once starting the app since this is the first page
   useEffect(() => {
-    axiosInterface.setupNavigationInterceptor(navigate);
+    setupNavigationInterceptor(navigate);
   }, []);
   return (
     <>

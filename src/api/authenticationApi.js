@@ -1,5 +1,5 @@
-import useAuthStore from "../context/authContext";
-import axiosInterface from "../helpers/axios";
+import useAuthStore from "../stores/auth";
+import axiosInterface from "../lib/axios";
 
 function setIdentification(responseData) {
   useAuthStore
@@ -8,7 +8,7 @@ function setIdentification(responseData) {
 }
 // all must be changed into an error interceptor that throws the error data but fuck it ill do it later
 export async function login(loginObject) {
-  const response = await axiosInterface.normalInterface
+  const response = await axiosInterface
     .post("/users/login", loginObject)
     .catch(function (error) {
       throw error.response.data;
@@ -22,7 +22,7 @@ export function logout() {
 }
 
 export async function signUp(registerObject) {
-  const response = await axiosInterface.normalInterface
+  const response = await axiosInterface
     .post("/users", registerObject)
     .catch(function (error) {
       throw error.response.data;

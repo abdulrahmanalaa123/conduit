@@ -1,8 +1,8 @@
-import axiosInterface from "../helpers/axios";
+import axiosInterface from "../lib/axios";
 
 function Home() {
   async function unauthorized() {
-    await axiosInterface.authorizedInterface.get("/user");
+    await axiosInterface.get("/user");
   }
   return (
     <div className="p-11">
