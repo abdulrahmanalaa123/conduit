@@ -12,13 +12,13 @@ function RootLayout() {
   return (
     <>
       <header>
-        <nav className="flex h-16 bg-slate-700 justify-between items-center px-8 flex-wrap">
+        <nav className="flex py-6 bg-slate-700 justify-between items-center px-8 flex-wrap">
           <p className="text-accentColor font-bold text-2xl">Conduit</p>
-          <ul className="flex flex-row gap-4 text-black">
+          <ul className="flex flex-row gap-4 text-black flex-wrap">
             <NavLink
               to="/"
               className={({ isActive }) =>
-                isActive ? "text-red-500 font-bold" : ""
+                isActive ? "text-accentColor font-bold" : ""
               }
             >
               Home
@@ -26,7 +26,7 @@ function RootLayout() {
             <NavLink
               to="login"
               className={({ isActive }) =>
-                isActive ? "text-red-500 font-bold" : ""
+                isActive ? "text-accentColor font-bold" : ""
               }
             >
               SignIn
@@ -34,7 +34,7 @@ function RootLayout() {
             <NavLink
               to="register"
               className={({ isActive }) =>
-                isActive ? "text-red-500 font-bold" : ""
+                isActive ? "text-accentColor font-bold" : ""
               }
             >
               SignUp

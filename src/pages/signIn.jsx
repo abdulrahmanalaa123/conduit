@@ -29,8 +29,8 @@ function SignIn() {
   // user.password in react hook form and wouldve achieved the same results
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4 p-8 ">
-      <p className="text-slate-500 text-3xl font-bold">SignIn</p>
-      <Link to="/register" className="text-red-500 hover:underline">
+      <p className="text-slate-300 text-3xl font-bold">SignIn</p>
+      <Link to="/register" className="text-accentColor hover:underline">
         Need an Account?
       </Link>
 
@@ -41,21 +41,21 @@ function SignIn() {
       >
         {errors.root &&
           errors.root.message.map((error, index) => (
-            <p key={index} className=" text-red-500">
+            <p key={index} className=" text-accentColor">
               {error}
             </p>
           ))}
         {(errors.user?.email?.type === "required" ||
           errors.user?.password?.type == "required") && (
-          <p className="text-red-500">
+          <p className="text-accentColor">
             Cant Leave Either email or Password Blank
           </p>
         )}
         {errors.user?.email && errors.user?.email.type !== "required" && (
-          <p className="text-red-500">{errors.user?.email.message}</p>
+          <p className="text-accentColor">{errors.user?.email.message}</p>
         )}
         {errors.user?.password && errors.user?.password.type !== "required" && (
-          <p className="text-red-500">{errors.user?.password.message}</p>
+          <p className="text-accentColor">{errors.user?.password.message}</p>
         )}
         <input
           type="text"
@@ -69,7 +69,7 @@ function SignIn() {
             },
           })}
           placeholder="Email"
-          className="border-2 border-red-500 w-full rounded-md px-4 h-14"
+          className="border-2 border-accentColor w-full rounded-md px-4 h-14"
         />
         <input
           type="password"
@@ -81,12 +81,12 @@ function SignIn() {
             },
           })}
           placeholder="Password"
-          className="border-2 border-red-500 w-full rounded-md px-4 h-14"
+          className="border-2 border-accentColor w-full rounded-md px-4 h-14"
         />
 
         <button
           disabled={isSubmitting}
-          className="self-end text-xl disabled:bg-blue-500 bg-red-500 text-slate-500 font-bold px-6 py-3 rounded-md"
+          className="self-end text-xl disabled:bg-blue-500 bg-accentColor text-slate-500 font-bold px-6 py-3 rounded-md"
         >
           SignIn
         </button>

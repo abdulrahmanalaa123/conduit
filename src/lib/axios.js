@@ -49,7 +49,6 @@ axiosInterface.interceptors.request.use((config) => {
   config.headers["Authorization"] = `Token ${
     useAuthStore.getState().identification?.token
   }`;
-
   return config;
 });
 export function setupNavigationInterceptor(navigate) {
