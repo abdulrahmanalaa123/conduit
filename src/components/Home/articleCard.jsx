@@ -1,4 +1,4 @@
-function ArticleCard() {
+function ArticleCard({ article }) {
   return (
     <div className="py-8 w-full border-t-2 border-t-slate-300">
       <div className="flex flex-row justify-between mb-2">

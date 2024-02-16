@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { setupNavigationInterceptor } from "../lib/axios";
 import { logout } from "../api/authenticationApi";
+import useAuthStore from "../stores/auth";
 
 function RootLayout() {
   const navigate = useNavigate();
+  const logged = useAuthStore((state) => state.identification);
   // setting up a register navigation once starting the app since this is the first page
   useEffect(() => {
     setupNavigationInterceptor(navigate);

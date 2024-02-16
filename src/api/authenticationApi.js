@@ -8,13 +8,12 @@ function setIdentification(responseData) {
 }
 // all must be changed into an error interceptor that throws the error data but fuck it ill do it later
 export async function login(loginObject) {
-  const response = await axiosInterface
-    .post("/users/login", loginObject)
-    .catch(function (error) {
-      throw error.response.data;
-    });
-
-  setIdentification(response.data);
+  try {
+    const response = await axiosInterface.post("/users/login", loginObject);
+    setIdentification(response.data);
+  } catch (error) {
+    throw error;
+  }
 }
 
 export function logout() {
@@ -22,11 +21,10 @@ export function logout() {
 }
 
 export async function signUp(registerObject) {
-  const response = await axiosInterface
-    .post("/users", registerObject)
-    .catch(function (error) {
-      throw error.response.data;
-    });
-
-  setIdentification(response.data);
+  try {
+    const response = await axiosInterface.post("/users", registerObject);
+    setIdentification(response.data);
+  } catch (error) {
+    throw error;
+  }
 }

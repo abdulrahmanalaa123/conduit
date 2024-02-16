@@ -51,19 +51,36 @@ axiosInterface.interceptors.request.use((config) => {
   }`;
   return config;
 });
+// for some reason the response status and data wasnt read although the request went through and returned back an error response but it didnt read it and it worked with using the nullable operator
+//i really dont know how and why and i need to use catch on the signup function and the sign in function idk why as well i need to look it up cuz i still till now
+//tilll now it works sometiems and sometimes doesnt idk why i mean the error handling part the success logic is flawless but errors are fucked up
 export function setupNavigationInterceptor(navigate) {
   axiosInterface.interceptors.response.use(
     (response) => {
-      console.log(response);
       return response;
     },
     (error) => {
+      if (!error.response) {
+        return Promise.reject({
+          errors: { Network: ["error or missing response"] },
+        });
+      }
+      // it gives me the occasional error of not being able to read status of undefined but for some reason the logged erorr is a full blown response with nothing missing
+      console.log("error", error);
       if (error.response.status == 401) {
         navigate("/register");
       }
+      return Promise.reject(error.response.data);
     }
   );
 }
 
+export function errorListFormatting(errorData) {
+  const errorList = [];
+  for (const errorType in errorData.errors) {
+    errorList.push(`${errorType} ${errorData.errors[errorType][0]}`);
+  }
+  return errorList;
+}
 // console.log(res.headers['authorization']);
 export default axiosInterface;

@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signUp } from "../api/authenticationApi";
 import { useForm } from "react-hook-form";
+import { errorListFormatting } from "../lib/axios";
 
 function SignUp() {
   const {
@@ -8,17 +9,15 @@ function SignUp() {
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm({ mode: onSubmit, reValidateMode: onSubmit });
+  } = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
+  const navigate = useNavigate();
   async function onSubmit(data) {
     try {
       await signUp(data);
+      navigate("/");
     } catch (error) {
-      const errorList = [];
-      for (const errorType in error.errors) {
-        errorList.push(`${errorType} ${error.errors[errorType][0]}`);
-      }
-
+      const errorList = errorListFormatting(error);
       setError("root", {
         message: errorList,
       });
@@ -41,20 +40,20 @@ function SignUp() {
       >
         {errors.root &&
           errors.root.message.map((error, index) => (
-            <p key={index} className=" text-accentColor">
+            <p key={index} className=" text-red-500">
               {error}
             </p>
           ))}
         {(errors.user?.email?.type === "required" ||
           errors.user?.password?.type == "required" ||
           errors.user?.username?.type == "required") && (
-          <p className="text-accentColor">Cant Leave any of the fields Blank</p>
+          <p className="text-red-500">Cant Leave any of the fields Blank</p>
         )}
         {errors.user?.email && errors.user?.email.type !== "required" && (
-          <p className="text-accentColor">{errors.user?.email.message}</p>
+          <p className="text-red-500">{errors.user?.email.message}</p>
         )}
         {errors.user?.password && errors.user?.password.type !== "required" && (
-          <p className="text-accentColor">{errors.user?.password.message}</p>
+          <p className="text-red-500">{errors.user?.password.message}</p>
         )}
 
         <input

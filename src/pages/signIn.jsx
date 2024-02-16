@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../api/authenticationApi";
 import { useForm } from "react-hook-form";
+import { errorListFormatting } from "../lib/axios";
 
 function SignIn() {
   const {
@@ -9,15 +10,14 @@ function SignIn() {
     setError,
     formState: { errors, isSubmitting },
   } = useForm({ mode: onSubmit, reValidateMode: onSubmit });
+  const navigate = useNavigate();
 
   async function onSubmit(data) {
     try {
       await login(data);
+      navigate("/");
     } catch (error) {
-      const errorList = [];
-      for (const errorType in error.errors) {
-        errorList.push(`${errorType} ${error.errors[errorType][0]}`);
-      }
+      const errorList = errorListFormatting(error);
 
       setError("root", {
         message: errorList,
@@ -41,21 +41,21 @@ function SignIn() {
       >
         {errors.root &&
           errors.root.message.map((error, index) => (
-            <p key={index} className=" text-accentColor">
+            <p key={index} className=" text-red-500">
               {error}
             </p>
           ))}
         {(errors.user?.email?.type === "required" ||
           errors.user?.password?.type == "required") && (
-          <p className="text-accentColor">
+          <p className="text-red-500">
             Cant Leave Either email or Password Blank
           </p>
         )}
         {errors.user?.email && errors.user?.email.type !== "required" && (
-          <p className="text-accentColor">{errors.user?.email.message}</p>
+          <p className="text-red-500">{errors.user?.email.message}</p>
         )}
         {errors.user?.password && errors.user?.password.type !== "required" && (
-          <p className="text-accentColor">{errors.user?.password.message}</p>
+          <p className="text-red-500">{errors.user?.password.message}</p>
         )}
         <input
           type="text"

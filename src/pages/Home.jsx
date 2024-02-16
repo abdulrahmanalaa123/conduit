@@ -1,7 +1,13 @@
-import { NavLink } from "react-router-dom";
 import axiosInterface from "../lib/axios";
 import ArticlesForm from "../components/Home/articleForm";
+import { useState } from "react";
+import useAuthStore from "../stores/auth";
+
 function Home() {
+  const [feedState, setFeedState] = useState("global");
+  const logged = useAuthStore((state) => state.identification);
+  const currentState = feedState !== "global";
+
   async function unauthorized() {
     await axiosInterface.get("/user");
   }
@@ -19,29 +25,39 @@ function Home() {
       </button>
       <div className="w-[70%] mx-auto flex flex-row gap-8 flex-wrap">
         <div className="w-[69%]">
-          <nav className="border-b-2  pb-4">
-            <NavLink
-              to="your"
-              className={({ isActive }) =>
-                `ml-4 ${isActive ? "text-accentColor font-bold" : ""}`
-              }
-            >
-              Your Feed
-            </NavLink>
-            <NavLink
-              to="global"
-              className={({ isActive }) =>
-                `ml-4 ${isActive ? "text-accentColor font-bold" : ""}`
-              }
+          <nav>
+            {logged && (
+              <button
+                className={`ml-4 font-bold pb-4 ${
+                  currentState
+                    ? "text-accentColor border-b-2  border-b-accentColor"
+                    : ""
+                }`}
+                onClick={() => {
+                  setFeedState("your");
+                }}
+              >
+                Your Feed
+              </button>
+            )}
+            <button
+              className={`ml-4 font-bold pb-4 ${
+                !currentState
+                  ? "text-accentColor border-b-2  border-b-accentColor"
+                  : ""
+              }`}
+              onClick={() => {
+                setFeedState("global");
+              }}
             >
               Global Feed
-            </NavLink>
+            </button>
           </nav>
           <div>
-            <ArticlesForm></ArticlesForm>
+            <ArticlesForm feedState={feedState}></ArticlesForm>
           </div>
         </div>
-        <div className="bg-slate-700 py-8 px-4 flex flex-col gap-4 w-1/4">
+        <div className="bg-slate-700 py-8 px-4 flex flex-col gap-4 w-1/4 h-min">
           <p>Popular tags</p>
           <div className="flex flex-row gap-2 flex-wrap">
             <button className="bg-slate-300 rounded-full px-4 py-2 text-black">

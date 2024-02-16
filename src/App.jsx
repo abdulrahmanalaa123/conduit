@@ -12,6 +12,9 @@ import Settings from "./pages/settings";
 import Editor from "./pages/editor";
 import Profile from "./pages/profile";
 import Article from "./pages/article";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,8 +29,13 @@ const router = createBrowserRouter(
     </Route>
   )
 );
+
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
