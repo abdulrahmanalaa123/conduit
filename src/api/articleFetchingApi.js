@@ -7,6 +7,7 @@ function pageParamsFormatter(page) {
   return { offset: page * 20, limit: 20 };
 }
 export async function getArticlesByPage(page, tag, author, favorited) {
+  console.log("here in global page");
   const params = {
     ...pageParamsFormatter(page),
     ...(tag && { tag }),

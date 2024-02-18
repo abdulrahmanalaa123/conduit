@@ -46,9 +46,12 @@ const axiosInterface = axios.create({
 });
 
 axiosInterface.interceptors.request.use((config) => {
-  config.headers["Authorization"] = `Token ${
-    useAuthStore.getState().identification?.token
-  }`;
+  const token = useAuthStore.getState().identification?.token;
+  if (token) {
+    config.headers["Authorization"] = `Token ${
+      useAuthStore.getState().identification?.token
+    }`;
+  }
   return config;
 });
 // for some reason the response status and data wasnt read although the request went through and returned back an error response but it didnt read it and it worked with using the nullable operator
@@ -60,17 +63,17 @@ export function setupNavigationInterceptor(navigate) {
       return response;
     },
     (error) => {
+      console.log("error", error);
+
       if (!error.response) {
         return Promise.reject({
-          errors: { Network: ["error or missing response"] },
+          errors: { Network: ["error or Server Error"] },
         });
-      }
-      // it gives me the occasional error of not being able to read status of undefined but for some reason the logged erorr is a full blown response with nothing missing
-      console.log("error", error);
-      if (error.response.status == 401) {
+      } else if (error.response.status == 401) {
         navigate("/register");
+      } else {
+        return Promise.reject(error.response.data);
       }
-      return Promise.reject(error.response.data);
     }
   );
 }
