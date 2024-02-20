@@ -17,12 +17,7 @@ function Home() {
         <p className="text-[56px] font-bold drop-shadow-md">conduit</p>
         <p className="text-2xl mt-2">A place to share your knowledge</p>
       </div>
-      <button
-        className="bg-red-500 rounded-full px-8 py-4 ml-8"
-        onClick={unauthorized}
-      >
-        Testing
-      </button>
+
       <div className="w-[70%] mx-auto flex flex-row gap-8 flex-wrap">
         <div className="w-[69%]">
           <nav>

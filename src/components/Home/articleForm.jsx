@@ -56,11 +56,9 @@ function ArticlesForm({ feedState }) {
 
   return (
     <div className="flex flex-col">
-      <ArticleCard></ArticleCard>
-      <ArticleCard></ArticleCard>
-      <ArticleCard></ArticleCard>
-      <ArticleCard></ArticleCard>
-      <ArticleCard></ArticleCard>
+      {data.articles.map((article) => {
+        return <ArticleCard article={article}></ArticleCard>;
+      })}
       {isFetching ? <span> Loading articles...</span> : null}
       {isSuccess && (
         <div className="flex flex-row flex-wrap mt-6 gap-2">

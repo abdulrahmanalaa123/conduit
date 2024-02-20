@@ -19,6 +19,7 @@ export async function getArticlesByPage(page, tag, author, favorited) {
     const response = await axiosInterface.get("/articles", {
       params: params,
     });
+    console.log(response);
     return response.data;
   } catch (error) {
     throw error;
