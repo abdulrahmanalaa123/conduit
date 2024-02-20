@@ -6,7 +6,7 @@ import axiosInterface from "../lib/axios";
 function pageParamsFormatter(page) {
   return { offset: page * 10, limit: 10 };
 }
-export async function getArticlesByPage(page, tag, author, favorited) {
+export async function getArticlesByPage({ page, tag, author, favorited }) {
   const params = {
     ...pageParamsFormatter(page),
     ...(tag && { tag }),
@@ -35,14 +35,19 @@ export async function getArticle({ slug }) {
 }
 export async function favorite({ slug }) {
   try {
-    await axiosInterface.post(`articles/${slug}/favorite`);
+    const response = await axiosInterface.post(`articles/${slug}/favorite`);
+    console.log("article favoriting: ", response);
+
+    return response.data;
   } catch (error) {
     throw error;
   }
 }
 export async function unFavorite({ slug }) {
   try {
-    await axiosInterface.delete(`articles/${slug}/favorite`);
+    const response = await axiosInterface.delete(`articles/${slug}/favorite`);
+    console.log("article unfavoriting: ", response);
+    return response.data;
   } catch (error) {
     throw error;
   }

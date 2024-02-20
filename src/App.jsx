@@ -13,7 +13,7 @@ import Editor from "./pages/editor";
 import Profile from "./pages/profile";
 import Article from "./pages/article";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter(
@@ -34,6 +34,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
 }

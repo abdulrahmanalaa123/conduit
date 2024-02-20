@@ -1,7 +1,7 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ArticleCard from "./articleCard";
 import { getArticlesByPage, getYourFeed } from "../../api/articleFetchingApi";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import ErrorComponent from "../errorComponent";
 
 function ArticlesForm({ feedState, tag }) {
@@ -9,9 +9,9 @@ function ArticlesForm({ feedState, tag }) {
 
   const queryFunction =
     feedState === "global"
-      ? getArticlesByPage(page)
+      ? getArticlesByPage({ page })
       : feedState === "tagged"
-      ? getArticlesByPage(page, tag)
+      ? getArticlesByPage({ page, tag })
       : getYourFeed(page);
   //TODO
   //query repeats 5 times on render for some
@@ -24,7 +24,10 @@ function ArticlesForm({ feedState, tag }) {
     isSuccess,
     isPlaceholderData,
   } = useQuery({
-    queryKey: [feedState, { page, ...(tag && { tag }) }],
+    queryKey: [
+      feedState,
+      { page, ...(tag && feedState === "tagged" && { tag }) },
+    ],
     placeholderData: keepPreviousData,
     queryFn: () => queryFunction,
   });
@@ -40,7 +43,7 @@ function ArticlesForm({ feedState, tag }) {
       return pagesArr;
     }
     return [];
-  }, [feedState, isSuccess]);
+  }, [feedState, isSuccess, tag]);
 
   if (isLoading) {
     return (
@@ -61,8 +64,10 @@ function ArticlesForm({ feedState, tag }) {
           No Articles to show
         </div>
       ) : (
-        data.articles.map((article, index) => {
-          return <ArticleCard key={index} article={article}></ArticleCard>;
+        data.articles.map((article) => {
+          return (
+            <ArticleCard key={article.slug} article={article}></ArticleCard>
+          );
         })
       )}
       {isFetching ? <span> Loading articles...</span> : null}
