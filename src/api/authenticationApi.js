@@ -4,7 +4,11 @@ import axiosInterface from "../lib/axios";
 function setIdentification(responseData) {
   useAuthStore
     .getState()
-    .setIdentification(responseData.user.token, responseData.user.username);
+    .setIdentification(
+      responseData.user.token,
+      responseData.user.username,
+      responseData.user.image
+    );
 }
 // all must be changed into an error interceptor that throws the error data but fuck it ill do it later
 export async function login(loginObject) {

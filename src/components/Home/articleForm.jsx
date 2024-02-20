@@ -43,7 +43,7 @@ function ArticlesForm({ feedState, tag }) {
       return pagesArr;
     }
     return [];
-  }, [feedState, isSuccess, tag]);
+  }, [feedState, isSuccess]);
 
   if (isLoading) {
     return (

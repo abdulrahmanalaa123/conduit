@@ -35,19 +35,14 @@ export async function getArticle({ slug }) {
 }
 export async function favorite({ slug }) {
   try {
-    const response = await axiosInterface.post(`articles/${slug}/favorite`);
-    console.log("article favoriting: ", response);
-
-    return response.data;
+    await axiosInterface.post(`articles/${slug}/favorite`);
   } catch (error) {
     throw error;
   }
 }
 export async function unFavorite({ slug }) {
   try {
-    const response = await axiosInterface.delete(`articles/${slug}/favorite`);
-    console.log("article unfavoriting: ", response);
-    return response.data;
+    await axiosInterface.delete(`articles/${slug}/favorite`);
   } catch (error) {
     throw error;
   }
