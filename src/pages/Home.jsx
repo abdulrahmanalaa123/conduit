@@ -1,16 +1,22 @@
-import axiosInterface from "../lib/axios";
 import ArticlesForm from "../components/Home/articleForm";
 import { useState } from "react";
 import useAuthStore from "../stores/auth";
+import { useQuery } from "@tanstack/react-query";
+import { getTags } from "../api/tagsFetching";
+import ErrorComponent from "../components/errorComponent";
 
 function Home() {
   const [feedState, setFeedState] = useState("global");
+  const [selectedTag, setSelectedTag] = useState(null);
   const logged = useAuthStore((state) => state.identification);
-  const currentState = feedState !== "global";
 
-  async function unauthorized() {
-    await axiosInterface.get("/user");
-  }
+  const {
+    data: tags,
+    isError,
+    isLoading,
+    error,
+  } = useQuery({ queryKey: ["tags"], queryFn: getTags });
+
   return (
     <div>
       <div className="bg-accentColor p-8 mb-8 shadow-inner flex flex-col items-center  shadow-black">
@@ -24,7 +30,7 @@ function Home() {
             {logged && (
               <button
                 className={`ml-4 font-bold pb-4 ${
-                  currentState
+                  feedState === "your"
                     ? "text-accentColor border-b-2  border-b-accentColor"
                     : ""
                 }`}
@@ -37,7 +43,7 @@ function Home() {
             )}
             <button
               className={`ml-4 font-bold pb-4 ${
-                !currentState
+                feedState === "global"
                   ? "text-accentColor border-b-2  border-b-accentColor"
                   : ""
               }`}
@@ -47,29 +53,58 @@ function Home() {
             >
               Global Feed
             </button>
+            {selectedTag && (
+              <button
+                className={`ml-4 font-bold pb-4  ${
+                  feedState === "tagged"
+                    ? "text-accentColor border-b-2  border-b-accentColor"
+                    : ""
+                }`}
+                onClick={() => {
+                  setFeedState("tagged");
+                }}
+              >
+                # {selectedTag}
+              </button>
+            )}
           </nav>
           <div>
-            <ArticlesForm feedState={feedState}></ArticlesForm>
+            <ArticlesForm
+              feedState={feedState}
+              tag={selectedTag}
+            ></ArticlesForm>
           </div>
         </div>
-        <div className="bg-slate-700 py-8 px-4 flex flex-col gap-4 w-1/4 h-min">
+        <div className="bg-slate-700 pt-1 px-2 pb-2 rounded-md flex flex-col gap-1 w-1/4 h-min">
           <p>Popular tags</p>
           <div className="flex flex-row gap-2 flex-wrap">
-            <button className="bg-slate-300 rounded-full px-4 py-2 text-black">
-              queries
-            </button>
-            <button className="bg-slate-300 rounded-full px-4 py-2 text-black">
-              queries
-            </button>
-            <button className="bg-slate-300 rounded-full px-4 py-2 text-black">
-              queries
-            </button>
-            <button className="bg-slate-300 rounded-full px-4 py-2 text-black">
-              queries
-            </button>
-            <button className="bg-slate-300 rounded-full px-4 py-2 text-black">
-              queries
-            </button>
+            {isLoading ? (
+              <p>Loading tags.....</p>
+            ) : isError ? (
+              <ErrorComponent error={error} />
+            ) : (
+              tags.tags.map((tag, index) => (
+                <button
+                  key={index}
+                  className={`${
+                    tag === selectedTag
+                      ? "bg-slate-500 underline text-slate-400"
+                      : "bg-slate-300 text-slate-800"
+                  }  hover:bg-slate-500  rounded-full px-2  text-xs`}
+                  onClick={() => {
+                    if (selectedTag === tag) {
+                      setSelectedTag(null);
+                      setFeedState("global");
+                    } else {
+                      setSelectedTag(tag);
+                      setFeedState("tagged");
+                    }
+                  }}
+                >
+                  {tag}
+                </button>
+              ))
+            )}
           </div>
         </div>
       </div>

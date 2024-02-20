@@ -4,23 +4,45 @@ import axiosInterface from "../lib/axios";
 //TODO
 //handle errors efficiently either using interceptors or not by using a catch block on every request doing the exact same thing in both authentication or article fetching
 function pageParamsFormatter(page) {
-  return { offset: page * 20, limit: 20 };
+  return { offset: page * 10, limit: 10 };
 }
 export async function getArticlesByPage(page, tag, author, favorited) {
-  console.log("here in global page");
   const params = {
     ...pageParamsFormatter(page),
     ...(tag && { tag }),
     ...(author && { author }),
     ...(favorited && { favorited }),
   };
-  console.log(params);
   try {
     const response = await axiosInterface.get("/articles", {
       params: params,
     });
     console.log(response);
     return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function getArticle({ slug }) {
+  try {
+    const response = await axiosInterface.get("/article", {
+      params: { slug: slug },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function favorite({ slug }) {
+  try {
+    await axiosInterface.post(`articles/${slug}/favorite`);
+  } catch (error) {
+    throw error;
+  }
+}
+export async function unFavorite({ slug }) {
+  try {
+    await axiosInterface.delete(`articles/${slug}/favorite`);
   } catch (error) {
     throw error;
   }
