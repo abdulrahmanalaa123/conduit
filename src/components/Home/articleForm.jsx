@@ -4,15 +4,22 @@ import { getArticlesByPage, getYourFeed } from "../../api/articleFetchingApi";
 import { useMemo, useState } from "react";
 import ErrorComponent from "../errorComponent";
 
-function ArticlesForm({ feedState, tag }) {
+function getFunction({ feedState, page, tag, author }) {
+  const functionsObject = {
+    global: getArticlesByPage({ page }),
+    tagged: getArticlesByPage({ page, tag }),
+    following: getYourFeed({ page }),
+    my: getArticlesByPage({ page, author }),
+    favorited: getArticlesByPage({ page, favorited: author }),
+  };
+
+  return functionsObject[feedState];
+}
+
+function ArticlesForm({ feedState, tag, author }) {
   const [page, setPage] = useState(0);
 
-  const queryFunction =
-    feedState === "global"
-      ? getArticlesByPage({ page })
-      : feedState === "tagged"
-      ? getArticlesByPage({ page, tag })
-      : getYourFeed(page);
+  const queryFunction = getFunction({ feedState: feedState, tag: tag, author });
   //TODO
   //query repeats 5 times on render for some
   const {
@@ -26,7 +33,12 @@ function ArticlesForm({ feedState, tag }) {
   } = useQuery({
     queryKey: [
       feedState,
-      { page, ...(tag && feedState === "tagged" && { tag }) },
+      {
+        page,
+        ...(tag && feedState === "tagged" && { tag }),
+        ...(author && feedState === "my" && { author }),
+        ...(author && feedState === "favorited" && { favorited: author }),
+      },
     ],
     placeholderData: keepPreviousData,
     queryFn: () => queryFunction,

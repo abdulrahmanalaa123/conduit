@@ -30,12 +30,12 @@ function Home() {
             {logged && (
               <button
                 className={`ml-4 font-bold pb-4 ${
-                  feedState === "your"
+                  feedState === "following"
                     ? "text-accentColor border-b-2  border-b-accentColor"
                     : ""
                 }`}
                 onClick={() => {
-                  setFeedState("your");
+                  if (feedState !== "following") setFeedState("following");
                 }}
               >
                 Your Feed
@@ -48,7 +48,7 @@ function Home() {
                   : ""
               }`}
               onClick={() => {
-                setFeedState("global");
+                if (feedState !== "global") setFeedState("global");
               }}
             >
               Global Feed
@@ -61,7 +61,7 @@ function Home() {
                     : ""
                 }`}
                 onClick={() => {
-                  setFeedState("tagged");
+                  if (feedState !== "tagged") setFeedState("tagged");
                 }}
               >
                 # {selectedTag}

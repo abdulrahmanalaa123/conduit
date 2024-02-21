@@ -97,7 +97,10 @@ function RootLayout() {
                   </NavLink>
                   <button
                     className=" rounded-full px-4  bg-red-50  "
-                    onClick={() => logout()}
+                    onClick={() => {
+                      navigate("/");
+                      logout();
+                    }}
                   >
                     Logout
                   </button>

@@ -1,12 +1,14 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { favorite, unFavorite } from "../../api/articleFetchingApi";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ArticleCard({ article }) {
   const [currentArticle, setCurrentArticle] = useState(article);
 
   // this is a shit implemenetation of the favoriting mechanism i need to improve it somehow
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const favoriteArticle = useMutation({
     // the function is switched because the onmutate function executes first and changes the current favorite state before using the function
@@ -28,7 +30,7 @@ function ArticleCard({ article }) {
       queryClient.invalidateQueries({ queryKey: ["your"] });
       queryClient.invalidateQueries({ queryKey: ["tagged"] });
     },
-    onError: () => {
+    onError: (context) => {
       setCurrentArticle(context);
     },
   });
@@ -77,9 +79,17 @@ function ArticleCard({ article }) {
             src={currentArticle.author.image}
             alt="x"
             className="rounded-full w-8 h-8  inline-block mr-1   cursor-pointer"
+            onClick={() => {
+              navigate(`/profile/${currentArticle.author.username}`);
+            }}
           />
           <div className="inline-block">
-            <p className="text-accentColor font-semibold hover:underline cursor-pointer">
+            <p
+              className="text-accentColor font-semibold hover:underline cursor-pointer"
+              onClick={() => {
+                navigate(`/profile/${currentArticle.author.username}`);
+              }}
+            >
               {currentArticle.author.username}
             </p>
             <p className="text-xs text-slate-400">{formattedDate}</p>
