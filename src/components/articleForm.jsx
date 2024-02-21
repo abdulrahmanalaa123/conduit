@@ -1,25 +1,13 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ArticleCard from "./articleCard";
-import { getArticlesByPage, getYourFeed } from "../api/articleFetchingApi";
+import { getFunction } from "../api/articleFetchingApi";
+
 import { useMemo, useState } from "react";
 import ErrorComponent from "./errorComponent";
-
-function getFunction({ feedState, page, tag, author }) {
-  const functionsObject = {
-    global: getArticlesByPage({ page }),
-    tagged: getArticlesByPage({ page, tag }),
-    following: getYourFeed({ page }),
-    my: getArticlesByPage({ page, author }),
-    favorited: getArticlesByPage({ page, favorited: author }),
-  };
-
-  return functionsObject[feedState];
-}
 
 function ArticlesForm({ feedState, tag, author }) {
   const [page, setPage] = useState(0);
 
-  const queryFunction = getFunction({ feedState: feedState, tag: tag, author });
   //TODO
   //query repeats 5 times on render for some
   const {
@@ -41,12 +29,18 @@ function ArticlesForm({ feedState, tag, author }) {
       },
     ],
     placeholderData: keepPreviousData,
-    queryFn: () => queryFunction,
+    queryFn: () =>
+      getFunction({
+        feedState: feedState,
+        page: page,
+        tag: tag,
+        author,
+      }),
   });
 
   // wanted to put this dependent on articlesCount but couldnt since its conditional on the current data state
   // and kept giving me an error Rendered more hooks than during the previous render or articlesCount not defined
-
+  console.log("data is:", data);
   const pagesArray = useMemo(() => {
     setPage(0);
     if (isSuccess) {

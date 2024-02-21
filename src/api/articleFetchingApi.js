@@ -17,7 +17,6 @@ export async function getArticlesByPage({ page, tag, author, favorited }) {
     const response = await axiosInterface.get("/articles", {
       params: params,
     });
-    console.log(response);
     return response.data;
   } catch (error) {
     throw error;
@@ -62,4 +61,16 @@ export async function createArticle({ data }) {
   await axiosInterface.post("/articles", data).catch(function (error) {
     throw error;
   });
+}
+
+export function getFunction({ feedState, page, tag, author }) {
+  const functionsObject = {
+    global: getArticlesByPage({ page }),
+    tagged: getArticlesByPage({ page, tag }),
+    following: getYourFeed({ page }),
+    my: getArticlesByPage({ page, author }),
+    favorited: getArticlesByPage({ page, favorited: author }),
+  };
+
+  return functionsObject[feedState];
 }

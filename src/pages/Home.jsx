@@ -10,11 +10,13 @@ function Home() {
   const [selectedTag, setSelectedTag] = useState(null);
   const logged = useAuthStore((state) => state.identification);
 
+  console.log("home rerender");
+
   const {
     data: tags,
-    isError,
-    isLoading,
-    error,
+    isError: tagsIsError,
+    isLoading: tagsLoading,
+    error: tagsError,
   } = useQuery({ queryKey: ["tags"], queryFn: getTags });
 
   return (
@@ -78,10 +80,10 @@ function Home() {
         <div className="bg-slate-700 pt-1 px-2 pb-2 rounded-md flex flex-col gap-1 w-1/4 h-min">
           <p>Popular tags</p>
           <div className="flex flex-row gap-2 flex-wrap">
-            {isLoading ? (
+            {tagsLoading ? (
               <p>Loading tags.....</p>
-            ) : isError ? (
-              <ErrorComponent error={error} />
+            ) : tagsIsError ? (
+              <ErrorComponent error={tagsError} />
             ) : (
               tags.tags.map((tag, index) => (
                 <button
