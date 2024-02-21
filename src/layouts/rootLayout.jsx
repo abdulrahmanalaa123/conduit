@@ -84,7 +84,7 @@ function RootLayout() {
                     Settings
                   </NavLink>
                   <NavLink
-                    to="profile"
+                    to={`profile/${logged.username}`}
                     className={({ isActive }) => createNavLinkStyle(isActive)}
                     style={{ display: "flex", alignItems: "center" }}
                   >
