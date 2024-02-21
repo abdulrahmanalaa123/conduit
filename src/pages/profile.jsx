@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import ProfileError from "../components/Profile/profileErrorPage";
 import useAuthStore from "../stores/auth";
 import { useState } from "react";
-import ArticlesForm from "../components/Home/articleForm";
+import ArticlesForm from "../components/articleForm";
 
 const profileQuery = (username) => ({
   queryKey: ["profile", username],

@@ -1,5 +1,5 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { favorite, unFavorite } from "../../api/articleFetchingApi";
+import { favorite, unFavorite } from "../api/articleFetchingApi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

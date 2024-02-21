@@ -1,8 +1,8 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ArticleCard from "./articleCard";
-import { getArticlesByPage, getYourFeed } from "../../api/articleFetchingApi";
+import { getArticlesByPage, getYourFeed } from "../api/articleFetchingApi";
 import { useMemo, useState } from "react";
-import ErrorComponent from "../errorComponent";
+import ErrorComponent from "./errorComponent";
 
 function getFunction({ feedState, page, tag, author }) {
   const functionsObject = {

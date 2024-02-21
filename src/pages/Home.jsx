@@ -1,4 +1,4 @@
-import ArticlesForm from "../components/Home/articleForm";
+import ArticlesForm from "../components/articleForm";
 import { useState } from "react";
 import useAuthStore from "../stores/auth";
 import { useQuery } from "@tanstack/react-query";
