@@ -24,9 +24,7 @@ export async function getArticlesByPage({ page, tag, author, favorited }) {
 }
 export async function getArticle({ slug }) {
   try {
-    const response = await axiosInterface.get("/article", {
-      params: { slug: slug },
-    });
+    const response = await axiosInterface.get(`/articles/${slug}`);
     return response.data;
   } catch (error) {
     throw error;

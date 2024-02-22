@@ -5,6 +5,8 @@ import ProfileError from "../components/Profile/profileErrorPage";
 import useAuthStore from "../stores/auth";
 import { useState } from "react";
 import ArticlesForm from "../components/articleForm";
+import FollowButton from "../components/followbutton";
+import { followHook } from "../hooks/booleanInteractionsHooks";
 
 const profileQuery = (username) => ({
   queryKey: ["profile", username],
@@ -23,27 +25,13 @@ function Profile() {
     error,
   } = useQuery(profileQuery(params.username));
   console.log(dataObject);
-  const [currentUser, setCurrentUser] = useState(dataObject.data.profile);
+  const [following, setFollowing] = useState(dataObject.profile.following);
   const [feedState, setFeedState] = useState("my");
   //this can be done as a custom hook but im a bit too lazy and woudl derail me a ton
-  const followSelectedUser = useMutation({
-    //reversed because onmutate changes it before using the function
-    mutationFn: currentUser.following ? followUser : unfollowUser,
-    onMutate() {
-      const oldUser = currentUser;
-      const newUser = { ...currentUser, following: !currentUser.following };
-      setCurrentUser(newUser);
-      return oldUser;
-    },
-    onSuccess() {
-      queryClient.invalidateQueries({
-        queryKey: ["profile", currentUser.username],
-        exact: true,
-      });
-    },
-    onError(context) {
-      setCurrentUser(context);
-    },
+  const followSelectedUser = followHook({
+    following,
+    setFollowing,
+    username: dataObject.profile.username,
   });
 
   if (isLoading) {
@@ -59,14 +47,14 @@ function Profile() {
   }
 
   function handleFollowing() {
-    followSelectedUser.mutate(currentUser.username);
+    followSelectedUser.mutate(dataObject.profile.username);
   }
 
   return (
     <>
-      <div className="bg-slate-400 pt-8 pb-4 mb-8 shadow-inner flex flex-col items-center  shadow-black">
+      <div className="bg-slate-400 pt-8 pb-4 mb-8  flex flex-col items-center  ">
         <img
-          src={dataObject.data.profile.image}
+          src={dataObject.profile.image}
           alt="big-profile-picture"
           className="w-24 rounded-full"
         />
@@ -98,52 +86,11 @@ function Profile() {
             Edit Profile Settings
           </Link>
         ) : (
-          <button
-            className={`mt-3 border-2 rounded-md px-2 self-end mr-[15%]  cursor-pointer flex items-center ${
-              currentUser.following
-                ? "border-green-600 text-green-600 hover:bg-accentColor font-bold "
-                : "justify-center border-slate-600 text-slate-600 hover:bg-slate-500"
-            }`}
-            onClick={() => handleFollowing()}
-          >
-            {!currentUser.following ? (
-              <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-4 h-4 mr-1"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 4.5v15m7.5-7.5h-15"
-                  />
-                </svg>
-                Follow {currentUser.username}
-              </>
-            ) : (
-              <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-4 h-4 mr-1"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m4.5 12.75 6 6 9-13.5"
-                  />
-                </svg>
-                Unfollow
-              </>
-            )}
-          </button>
+          <FollowButton
+            following={following}
+            handleFollowing={handleFollowing}
+            username={dataObject.profile.username}
+          ></FollowButton>
         )}
       </div>
       <div className="w-[70%] mx-auto ">
@@ -175,7 +122,7 @@ function Profile() {
         </nav>
         <ArticlesForm
           feedState={feedState}
-          author={currentUser.username}
+          author={dataObject.profile.username}
         ></ArticlesForm>
       </div>
     </>

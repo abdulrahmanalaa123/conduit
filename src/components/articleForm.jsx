@@ -1,5 +1,4 @@
 import ArticleCard from "./articleCard";
-import { getFunction } from "../api/articleFetchingApi";
 import { useMemo, useState } from "react";
 import ErrorComponent from "./errorComponent";
 import articlesQuery from "../hooks/articlesHook";

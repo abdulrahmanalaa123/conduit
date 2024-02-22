@@ -11,9 +11,10 @@ import SignUp from "./pages/signUp";
 import Settings from "./pages/settings";
 import Editor from "./pages/editor";
 import Profile, { loader } from "./pages/profile";
-import Article from "./pages/article";
+import Article, { articlesLoader } from "./pages/article";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 const queryClient = new QueryClient({
   queries: {
     refetchOnWindowFocus: false,
@@ -34,7 +35,11 @@ const router = createBrowserRouter(
         loader={loader(queryClient)}
       ></Route>
       <Route path="editor" element={<Editor />}></Route>
-      <Route path="article/:slug" element={<Article />}></Route>
+      <Route
+        path="article/:slug"
+        element={<Article />}
+        loader={articlesLoader(queryClient)}
+      ></Route>
     </Route>
   )
 );

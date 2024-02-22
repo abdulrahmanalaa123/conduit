@@ -1,6 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 
-//failed attempt in generalizing the usemutate for liking or following but it turned out to be more complext than just repeating it leaving it right here but its not used in the whole app
+//failed attempt in generalizing the usemutate for liking or following but it turned out to be more complex putting me throught prototypes hell and not much of reusability
+//and it just fits those specific 2 use cases
+// than just repeating it leaving it right here but its not used in the whole app
+//not exporting to deprecate it and not expose it
 function booleanInteractionHook({
   positiveFn,
   negativeFn,
@@ -40,5 +43,3 @@ function booleanInteractionHook({
     },
   });
 }
-
-export default booleanInteractionHook;

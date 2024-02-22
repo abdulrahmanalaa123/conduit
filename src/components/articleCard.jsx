@@ -2,38 +2,21 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { favorite, unFavorite } from "../api/articleFetchingApi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LikeHook } from "../hooks/booleanInteractionsHooks";
 
+//TODO
+//could be improved by just one favorite state instead of readign the whole article as a staet
+//and using setQuery by looping over the current cache in global,your,tagged which doenst sound like an improvement
+//but i feel like its more consistent
+//none of these modifications will be done now to not break my whole site must finish first then improve upon it
 function ArticleCard({ article }) {
+  // this is a shit implemenetation of the favoriting mechanism i need to improve it somehow
+
   const [currentArticle, setCurrentArticle] = useState(article);
 
-  // this is a shit implemenetation of the favoriting mechanism i need to improve it somehow
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const favoriteArticle = useMutation({
-    // the function is switched because the onmutate function executes first and changes the current favorite state before using the function
-    mutationFn: currentArticle.favorited ? favorite : unFavorite,
-    onMutate: () => {
-      const oldArticle = currentArticle;
-      const newArticle = {
-        ...currentArticle,
-        favorited: !currentArticle.favorited,
-        favoritesCount: currentArticle.favorited
-          ? currentArticle.favoritesCount - 1
-          : currentArticle.favoritesCount + 1,
-      };
-      setCurrentArticle(newArticle);
-      return oldArticle;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["global"] });
-      queryClient.invalidateQueries({ queryKey: ["your"] });
-      queryClient.invalidateQueries({ queryKey: ["tagged"] });
-    },
-    onError: (context) => {
-      setCurrentArticle(context);
-    },
-  });
+  const favoriteArticle = LikeHook({ currentArticle, setCurrentArticle });
   // const unfavoriteArticle = useMutation({
   //   mutationFn: unFavorite,
   //   onMutate: () => {
@@ -76,7 +59,7 @@ function ArticleCard({ article }) {
     }
   );
   return (
-    <div className="py-8 w-full border-t-2 border-t-slate-300">
+    <div className="py-8 w-full border-t border-t-slate-300">
       <div className="flex flex-row justify-between mb-2">
         <div className="flex items-center">
           <img
