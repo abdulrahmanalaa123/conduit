@@ -62,15 +62,3 @@ export async function createArticle({ data }) {
     throw error;
   });
 }
-
-export function getFunction({ feedState, page, tag, author }) {
-  const functionsObject = {
-    global: getArticlesByPage({ page }),
-    tagged: getArticlesByPage({ page, tag }),
-    following: getYourFeed({ page }),
-    my: getArticlesByPage({ page, author }),
-    favorited: getArticlesByPage({ page, favorited: author }),
-  };
-
-  return functionsObject[feedState];
-}

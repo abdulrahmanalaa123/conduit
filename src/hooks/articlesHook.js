@@ -1,5 +1,17 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getFunction } from "../api/articleFetchingApi";
+import { getArticlesByPage, getYourFeed } from "../api/articleFetchingApi";
+
+function getFunction({ feedState, page, tag, author }) {
+  const functionsObject = {
+    global: getArticlesByPage({ page }),
+    tagged: getArticlesByPage({ page, tag }),
+    following: getYourFeed({ page }),
+    my: getArticlesByPage({ page, author }),
+    favorited: getArticlesByPage({ page, favorited: author }),
+  };
+
+  return functionsObject[feedState];
+}
 
 //extracted as a custom hook for refactoring ease if the call of data in articlesform isnt the rigth thing to do
 function articlesQuery({ page, feed, author, tag }) {
