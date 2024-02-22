@@ -1,15 +1,16 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ArticleCard from "./articleCard";
 import { getFunction } from "../api/articleFetchingApi";
-
 import { useMemo, useState } from "react";
 import ErrorComponent from "./errorComponent";
+import articlesQuery from "../hooks/articlesHook";
 
 function ArticlesForm({ feedState, tag, author }) {
   const [page, setPage] = useState(0);
 
   //TODO
   //query repeats 5 times on render for some
+  //after some debugging and using useeffect and taking out the fucntion to the home component it still calls 5 times
+  //so i dont know why its something related to axios or the articlFetching function or its a behavior
   const {
     data,
     isLoading,
@@ -18,25 +19,7 @@ function ArticlesForm({ feedState, tag, author }) {
     isFetching,
     isSuccess,
     isPlaceholderData,
-  } = useQuery({
-    queryKey: [
-      feedState,
-      {
-        page,
-        ...(tag && feedState === "tagged" && { tag }),
-        ...(author && feedState === "my" && { author }),
-        ...(author && feedState === "favorited" && { favorited: author }),
-      },
-    ],
-    placeholderData: keepPreviousData,
-    queryFn: () =>
-      getFunction({
-        feedState: feedState,
-        page: page,
-        tag: tag,
-        author,
-      }),
-  });
+  } = articlesQuery({ page, feed: feedState, author, tag });
 
   // wanted to put this dependent on articlesCount but couldnt since its conditional on the current data state
   // and kept giving me an error Rendered more hooks than during the previous render or articlesCount not defined

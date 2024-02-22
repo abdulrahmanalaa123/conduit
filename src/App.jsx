@@ -18,7 +18,6 @@ const queryClient = new QueryClient({
   queries: {
     refetchOnWindowFocus: false,
     retry: false,
-    refetchInterval: 120000,
   },
 });
 
@@ -35,7 +34,7 @@ const router = createBrowserRouter(
         loader={loader(queryClient)}
       ></Route>
       <Route path="editor" element={<Editor />}></Route>
-      <Route path="article" element={<Article />}></Route>
+      <Route path="article/:slug" element={<Article />}></Route>
     </Route>
   )
 );

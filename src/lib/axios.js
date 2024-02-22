@@ -60,7 +60,7 @@ axiosInterface.interceptors.request.use((config) => {
 export function setupNavigationInterceptor(navigate) {
   axiosInterface.interceptors.response.use(
     (response) => {
-      console.log(response);
+      console.log("only one request");
       return response;
     },
     (error) => {
