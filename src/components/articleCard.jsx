@@ -63,6 +63,10 @@ function ArticleCard({ article }) {
     // }
     favoriteArticle.mutate({ slug: currentArticle.slug });
   }
+
+  function goToArticle() {
+    navigate(`/article/${currentArticle.slug}`);
+  }
   const formattedDate = new Date(currentArticle.updatedAt).toLocaleDateString(
     "en-US",
     {
@@ -118,21 +122,33 @@ function ArticleCard({ article }) {
         </button>
       </div>
       <div>
-        <p className="text-2xl text-slate-300  line-clamp-2 cursor-pointer">
+        <p
+          className="text-2xl text-slate-300  line-clamp-2 cursor-pointer"
+          onClick={() => goToArticle()}
+        >
           {currentArticle.title}
         </p>
-        <p className="mb-4 text-slate-500 line-clamp-2 cursor-pointer">
+        <p
+          className="mb-4 text-slate-500 line-clamp-2 cursor-pointer"
+          onClick={() => goToArticle()}
+        >
           {currentArticle.body}
         </p>
       </div>
       <div className="flex flex-row justify-between text-base">
-        <span className="text-slate-500 cursor-pointer text-xs">Read More</span>
+        <span
+          className="text-slate-500 cursor-pointer text-xs"
+          onClick={() => goToArticle()}
+        >
+          Read More
+        </span>
         <div className="flex flex-row justify-around text-greyShade gap-1">
           {currentArticle.tagList.map((tag, index) => {
             return (
               <div
                 key={index}
                 className="border-2 border-greyShade rounded-full px-2 cursor-pointer text-xs"
+                onClick={() => goToArticle()}
               >
                 {tag}
               </div>
