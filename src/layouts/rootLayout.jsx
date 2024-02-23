@@ -21,7 +21,7 @@ function RootLayout() {
     <>
       <header>
         <nav className=" bg-slate-700 ">
-          <div className="flex py-6 justify-between items-center px-8 flex-wrap w-[70%] mx-auto">
+          <div className="flex py-4 justify-between items-center px-8 flex-wrap w-[70%] mx-auto">
             <p
               className="text-accentColor font-bold text-2xl cursor-pointer"
               onClick={() => {

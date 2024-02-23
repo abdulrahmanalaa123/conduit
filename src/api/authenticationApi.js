@@ -7,7 +7,8 @@ function setIdentification(responseData) {
     .setIdentification(
       responseData.user.token,
       responseData.user.username,
-      responseData.user.image
+      responseData.user.image,
+      responseData.user.email
     );
 }
 // all must be changed into an error interceptor that throws the error data but fuck it ill do it later

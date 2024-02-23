@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import ErrorComponent from "./errorComponent";
 import articlesQuery from "../hooks/articlesHook";
 
+//benefit of getting the hook outside and passing the query is the use of loader of home
 function ArticlesForm({ feedState, tag, author }) {
   const [page, setPage] = useState(0);
 

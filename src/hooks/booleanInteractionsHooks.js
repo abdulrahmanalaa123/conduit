@@ -29,6 +29,7 @@ export function LikeHook({ currentArticle, setCurrentArticle }) {
     },
   });
 }
+//well the state containing the object isnt good for issues of generalizing
 export function followHook({ following, setFollowing, username }) {
   const queryClient = useQueryClient();
   return useMutation({
