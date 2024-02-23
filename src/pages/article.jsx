@@ -3,6 +3,7 @@ import { getArticle } from "../api/articleFetchingApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { getComments } from "../api/commentsApi";
 import AuthorComponent from "../components/Article/authorComponent";
+import Comments from "../components/Article/comments";
 //TODO
 //could optimize this whole page sicne loading it will be after loading results from a feed
 //instead of loading and passing a mutation function and everything
@@ -20,17 +21,12 @@ const commentsQuery = (slug) => ({
 
 function Article() {
   const params = useParams();
-  const navigate = useNavigate();
   const {
     data: article,
     isLoading: articleIsLoading,
     isError: articleIsError,
   } = useQuery(articleQuery(params.slug));
-  const {
-    data: comments,
-    isLoading: commentsAreLoading,
-    isError: commentsIsError,
-  } = useQuery(commentsQuery(params.slug));
+  const commentsResponse = useQuery(commentsQuery(params.slug));
 
   if (articleIsLoading) {
     return (
@@ -57,7 +53,7 @@ function Article() {
       </div>
       <div className="w-[70%] mx-auto">
         <div className="border-b border-greyShade">
-          <p className="text-slate-200 text-2xl mb-8">{article.article.body}</p>
+          <p className="text-slate-200 text-lg mb-8">{article.article.body}</p>
           <div className="mb-8 flex flex-row text-greyShade gap-1">
             {article.article.tagList.map((tag, index) => {
               return (
@@ -71,8 +67,9 @@ function Article() {
             })}
           </div>
         </div>
-        <div className="flex justify-center mt-8">
+        <div className="flex flex-col items-center mt-8">
           <AuthorComponent article={article}></AuthorComponent>
+          <Comments commentsQuery={commentsResponse}></Comments>
         </div>
       </div>
     </>

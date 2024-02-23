@@ -1,7 +1,9 @@
 function FollowButton({ following, handleFollowing, username, margin = true }) {
   return (
     <button
-      className={`${margin ? "mt-3" : ""} border-2 rounded-md px-2 self-end ${
+      className={`${
+        margin ? "mt-3" : ""
+      } text-sm border-2 rounded-md px-2 self-end ${
         margin ? "mr-[15%]" : ""
       }   flex items-center ${
         following

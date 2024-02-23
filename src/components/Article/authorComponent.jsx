@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { LikeHook, followHook } from "../../hooks/booleanInteractionsHooks";
 import FollowButton from "../followbutton";
-function AuthorComponent(article) {
+import { useNavigate } from "react-router-dom";
+
+function AuthorComponent({ article }) {
+  const navigate = useNavigate();
+
   //need to know why for real its wierd
   // idk how its 3 articles where 2 was working in the when the component was in article Page
   //   3 article.article.article
-  const [articleData, setArticleData] = useState(article.article.article);
+  const [articleData, setArticleData] = useState(article.article);
   const [following, setFollowing] = useState(articleData.author.following);
 
   const followAuthor = followHook({
@@ -61,7 +65,7 @@ function AuthorComponent(article) {
           margin={false}
         ></FollowButton>
         <button
-          className={` text-sm px-2 py-[0.125rem] rounded-md group border-2 border-accentColor whitespace-nowrap ${
+          className={` text-sm px-2  rounded-md group border-2 border-accentColor whitespace-nowrap ${
             articleData.favorited
               ? "hover:bg-[#449d44] bg-accentColor  text-white"
               : " hover:bg-accentColor text-accentColor hover:text-white "
