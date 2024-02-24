@@ -3,14 +3,22 @@ import { LikeHook, followHook } from "../../hooks/booleanInteractionsHooks";
 import FollowButton from "../followbutton";
 import { useNavigate } from "react-router-dom";
 
-function AuthorComponent({ article }) {
+//i included hook calls here because all components need to share the same state
+//the problem is here now there are 2 function calls and 2 query invalidation but it works and ill leave it at that fuck it
+
+//TODO
+//figure a better way to duplicate components with the same shared instance
+function AuthorComponent({
+  articleData,
+  setArticleData,
+  following,
+  setFollowing,
+}) {
   const navigate = useNavigate();
 
   //need to know why for real its wierd
   // idk how its 3 articles where 2 was working in the when the component was in article Page
   //   3 article.article.article
-  const [articleData, setArticleData] = useState(article.article);
-  const [following, setFollowing] = useState(articleData.author.following);
 
   const followAuthor = followHook({
     following,
@@ -31,7 +39,7 @@ function AuthorComponent({ article }) {
     }
   );
   function handleFollowing() {
-    followAuthor.mutate(articlData.author.username);
+    followAuthor.mutate(articleData.author.username);
   }
   function handleFavoriteArticle() {
     favoriteArticle.mutate({ slug: articleData.slug });

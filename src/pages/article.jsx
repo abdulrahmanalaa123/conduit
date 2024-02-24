@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getComments } from "../api/commentsApi";
 import AuthorComponent from "../components/Article/authorComponent";
 import Comments from "../components/Article/comments";
+import { useState } from "react";
+
 //TODO
 //could optimize this whole page sicne loading it will be after loading results from a feed
 //instead of loading and passing a mutation function and everything
@@ -26,7 +28,8 @@ function Article() {
     isLoading: articleIsLoading,
     isError: articleIsError,
   } = useQuery(articleQuery(params.slug));
-  const commentsResponse = useQuery(commentsQuery(params.slug));
+  const [articleData, setArticleData] = useState(article.article);
+  const [following, setFollowing] = useState(articleData.author.following);
 
   if (articleIsLoading) {
     return (
@@ -45,17 +48,22 @@ function Article() {
       <div className="bg-slate-200">
         <div className="w-[70%] mx-auto flex flex-col py-8 mb-8">
           <p className="text-[44px] font-bold text-slate-700">
-            {article.article.title}
+            {articleData.title}
           </p>
           {/* the extraction of this component made me declare 2 hooks and 2 states for each although they can share both */}
-          <AuthorComponent article={article}></AuthorComponent>
+          <AuthorComponent
+            articleData={articleData}
+            setArticleData={setArticleData}
+            following={following}
+            setFollowing={setFollowing}
+          ></AuthorComponent>
         </div>
       </div>
       <div className="w-[70%] mx-auto">
         <div className="border-b border-greyShade">
-          <p className="text-slate-200 text-lg mb-8">{article.article.body}</p>
+          <p className="text-slate-200 text-lg mb-8">{articleData.body}</p>
           <div className="mb-8 flex flex-row text-greyShade gap-1">
-            {article.article.tagList.map((tag, index) => {
+            {articleData.tagList.map((tag, index) => {
               return (
                 <div
                   key={index}
@@ -68,8 +76,13 @@ function Article() {
           </div>
         </div>
         <div className="flex flex-col items-center mt-8">
-          <AuthorComponent article={article}></AuthorComponent>
-          <Comments commentsQuery={commentsResponse}></Comments>
+          <AuthorComponent
+            articleData={articleData}
+            setArticleData={setArticleData}
+            following={following}
+            setFollowing={setFollowing}
+          ></AuthorComponent>
+          <Comments></Comments>
         </div>
       </div>
     </>

@@ -8,7 +8,7 @@ export function LikeHook({ currentArticle, setCurrentArticle }) {
     // the function is switched because the onmutate function executes first and changes the current favorite state before using the function
     mutationFn: currentArticle.favorited ? favorite : unFavorite,
     onMutate: () => {
-      const oldArticle = currentArticle;
+      const oldArticle = { ...currentArticle };
       const newArticle = {
         ...currentArticle,
         favorited: !currentArticle.favorited,
