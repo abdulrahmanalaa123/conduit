@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { getArticle } from "../api/articleFetchingApi";
-import { useNavigate, useParams } from "react-router-dom";
+import { getArticle } from "../api/articleApi";
+import { useParams } from "react-router-dom";
 import { getComments } from "../api/commentsApi";
 import AuthorComponent from "../components/Article/authorComponent";
 import Comments from "../components/Article/comments";
 import { useState } from "react";
+import OwnAuthorComponent from "../components/Article/ownAuthorComponent";
+import useAuthStore from "../stores/auth";
 
 //TODO
 //could optimize this whole page sicne loading it will be after loading results from a feed
@@ -23,6 +25,7 @@ const commentsQuery = (slug) => ({
 
 function Article() {
   const params = useParams();
+  const logged = useAuthStore((state) => state.identification);
   const {
     data: article,
     isLoading: articleIsLoading,
@@ -46,17 +49,21 @@ function Article() {
     // className="font-sans"
     <>
       <div className="bg-slate-200">
-        <div className="w-[70%] mx-auto flex flex-col py-8 mb-8">
+        <div className="w-[70%] mx-auto flex flex-col gap-2 py-8 mb-8">
           <p className="text-[44px] font-bold text-slate-700">
             {articleData.title}
           </p>
           {/* the extraction of this component made me declare 2 hooks and 2 states for each although they can share both */}
-          <AuthorComponent
-            articleData={articleData}
-            setArticleData={setArticleData}
-            following={following}
-            setFollowing={setFollowing}
-          ></AuthorComponent>
+          {articleData.author.username === logged?.username ? (
+            <OwnAuthorComponent articleData={articleData}></OwnAuthorComponent>
+          ) : (
+            <AuthorComponent
+              articleData={articleData}
+              setArticleData={setArticleData}
+              following={following}
+              setFollowing={setFollowing}
+            ></AuthorComponent>
+          )}
         </div>
       </div>
       <div className="w-[70%] mx-auto">
@@ -76,12 +83,16 @@ function Article() {
           </div>
         </div>
         <div className="flex flex-col items-center mt-8">
-          <AuthorComponent
-            articleData={articleData}
-            setArticleData={setArticleData}
-            following={following}
-            setFollowing={setFollowing}
-          ></AuthorComponent>
+          {articleData.author.username !== logged?.username ? (
+            <AuthorComponent
+              articleData={articleData}
+              setArticleData={setArticleData}
+              following={following}
+              setFollowing={setFollowing}
+            ></AuthorComponent>
+          ) : (
+            <OwnAuthorComponent articleData={articleData}></OwnAuthorComponent>
+          )}
           <Comments></Comments>
         </div>
       </div>

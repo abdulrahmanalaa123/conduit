@@ -1,6 +1,6 @@
 import useAuthStore from "../../stores/auth";
 import ErrorComponent from "../errorComponent";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AddComment from "./addComment";
 import { useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -55,7 +55,20 @@ function Comments() {
   }
   return (
     <div className="w-[70%] mx-auto self-start">
-      <AddComment></AddComment>
+      {identification ? (
+        <AddComment></AddComment>
+      ) : (
+        <div className="flex justify-center text-start mt-8 gap-2 self-center">
+          <Link to="/login" className="text-accentColor hover:underline">
+            SignIn
+          </Link>
+          or
+          <Link to="/register" className="text-accentColor hover:underline">
+            SignUp
+          </Link>
+          to add comments to this article
+        </div>
+      )}
       {data.comments.map((comment) => {
         return (
           <div key={comment.id} className=" flex flex-col my-4">

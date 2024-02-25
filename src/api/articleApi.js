@@ -56,7 +56,25 @@ export async function getYourFeed({ page }) {
 }
 export async function createArticle({ data }) {
   // can be handled with catch since there are no dependent lines of code
-  await axiosInterface.post("/articles", data).catch(function (error) {
+  try {
+    await axiosInterface.post("/articles", data);
+  } catch (error) {
     throw error;
-  });
+  }
+}
+
+export async function deleteArticle({ slug }) {
+  try {
+    await axiosInterface.delete(`/articles/${slug}`);
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function editArticle({ data }) {
+  try {
+    await axiosInterface.put(`/articles/${data.slug}`, data);
+  } catch (error) {
+    throw error;
+  }
 }
