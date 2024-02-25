@@ -91,7 +91,7 @@ function SignUp() {
 
         <button
           disabled={isSubmitting}
-          className="self-end text-xl disabled:bg-blue-500 bg-accentColor text-slate-500 font-bold px-6 py-3 rounded-md"
+          className="self-end text-xl disabled:opacity-50 bg-accentColor text-slate-500 font-bold px-6 py-3 rounded-md"
         >
           SignUp
         </button>

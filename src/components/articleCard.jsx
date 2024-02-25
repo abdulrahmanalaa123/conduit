@@ -122,7 +122,7 @@ function ArticleCard({ article }) {
         >
           Read More
         </span>
-        <div className="flex flex-row justify-around text-greyShade gap-1">
+        <div className="flex flex-row justify-around text-greyShade gap-1 flex-wrap">
           {currentArticle.tagList.map((tag, index) => {
             return (
               <div

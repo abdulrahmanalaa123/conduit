@@ -25,7 +25,7 @@ function ArticlesForm({ feedState, tag, author }) {
     setPage(0);
   }, [feedState]);
 
-  const pagesNo = Math.ceil(data.articlesCount / 10);
+  const pagesNo = isSuccess ? Math.ceil(data.articlesCount / 10) : null;
 
   const pagesArray = isSuccess
     ? [...Array(pagesNo).keys()].map((foo) => foo + 1)

@@ -27,9 +27,26 @@ export function LikeHook({ currentArticle, setCurrentArticle }) {
       return oldArticle;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["global"] });
-      queryClient.invalidateQueries({ queryKey: ["your"] });
-      queryClient.invalidateQueries({ queryKey: ["tagged"] });
+      queryClient.invalidateQueries({
+        queryKey: ["global"],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["your"],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["tagged"],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["my"],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["favorited"],
+        refetchType: "active",
+      });
     },
     onError: (context) => {
       setCurrentArticle(context);
@@ -50,6 +67,7 @@ export function followHook({ following, setFollowing, username }) {
         queryKey: ["profile", username],
         exact: true,
       });
+      queryClient.invalidateQueries({ queryKey: ["your"] });
     },
     onError() {
       setFollowing(!following);

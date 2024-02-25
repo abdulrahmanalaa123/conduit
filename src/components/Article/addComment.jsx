@@ -35,7 +35,7 @@ function AddComment() {
       <textarea
         name="comment"
         rows="5"
-        placeholder="write an article"
+        placeholder="write a comment"
         required
         className="p-4 resize-y w-full rounded-t-md"
         ref={commentBody}

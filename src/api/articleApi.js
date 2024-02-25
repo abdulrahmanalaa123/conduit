@@ -57,7 +57,8 @@ export async function getYourFeed({ page }) {
 export async function createArticle({ data }) {
   // can be handled with catch since there are no dependent lines of code
   try {
-    await axiosInterface.post("/articles", data);
+    const response = await axiosInterface.post("/articles", data);
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -73,7 +74,11 @@ export async function deleteArticle({ slug }) {
 
 export async function editArticle({ data }) {
   try {
-    await axiosInterface.put(`/articles/${data.slug}`, data);
+    const response = await axiosInterface.put(
+      `/articles/${data.article.slug}`,
+      data
+    );
+    return response.data;
   } catch (error) {
     throw error;
   }
