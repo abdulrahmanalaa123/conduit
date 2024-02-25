@@ -29,7 +29,6 @@ function Settings() {
   async function onSubmit(data) {
     try {
       await editUser(data);
-      console.log("this runs");
       queryClient.invalidateQueries({
         queryKey: ["global"],
         refetchType: "active",
