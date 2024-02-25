@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 
+//deprecated although needs to be handled to work properly
 function queryInvalidator() {
   queryClient = useQueryClient();
 
@@ -18,5 +19,3 @@ function queryInvalidator() {
     refetchType: "active",
   });
 }
-
-export default queryInvalidator;

@@ -9,9 +9,26 @@ function OwnAuthorComponent({ articleData }) {
   const deletion = useMutation({
     mutationFn: deleteArticle,
     onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["global"] });
-      queryClient.invalidateQueries({ queryKey: ["your"] });
-      queryClient.invalidateQueries({ queryKey: ["tagged"] });
+      queryClient.invalidateQueries({
+        queryKey: ["global"],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["your"],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["tagged"],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["my"],
+        refetchType: "active",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["favorited"],
+        refetchType: "active",
+      });
       navigate("/");
     },
   });
