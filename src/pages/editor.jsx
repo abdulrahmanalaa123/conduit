@@ -1,12 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { editArticle, createArticle } from "../api/articleApi";
 import { errorListFormatting } from "../lib/axios";
-import queryInvalidator from "../hooks/queryInvalidator";
 
 function Editor() {
-  const params = useParams();
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -178,7 +176,7 @@ function Editor() {
         className="self-end px-6 py-3 disabled:opacity-50 bg-accentColor rounded-md text-xl"
         disabled={isSubmitting}
       >
-        {Object.keys(params).length ? "UpdateArticle" : "AddArticle"}
+        {location.state ? "UpdateArticle" : "AddArticle"}
       </button>
     </form>
   );

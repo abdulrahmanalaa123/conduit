@@ -8,7 +8,6 @@ import { useState } from "react";
 import OwnAuthorComponent from "../components/Article/ownAuthorComponent";
 import useAuthStore from "../stores/auth";
 
-//TODO
 //could optimize this whole page sicne loading it will be after loading results from a feed
 //instead of loading and passing a mutation function and everything
 //although the consequences would be cringe the first is props hell

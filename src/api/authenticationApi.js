@@ -4,12 +4,7 @@ import axiosInterface from "../lib/axios";
 function setIdentification(responseData) {
   useAuthStore
     .getState()
-    .setIdentification(
-      responseData.user.token,
-      responseData.user.username,
-      responseData.user.image,
-      responseData.user.email
-    );
+    .setIdentification({ identificationObject: responseData.user });
 }
 // all must be changed into an error interceptor that throws the error data but fuck it ill do it later
 export async function login(loginObject) {
@@ -28,6 +23,15 @@ export function logout() {
 export async function signUp(registerObject) {
   try {
     const response = await axiosInterface.post("/users", registerObject);
+    setIdentification(response.data);
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function editUser(userObject) {
+  try {
+    const response = await axiosInterface.put("/user", userObject);
     setIdentification(response.data);
   } catch (error) {
     throw error;

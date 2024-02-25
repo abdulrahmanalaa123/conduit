@@ -11,14 +11,9 @@ const useAuthStore = create(
     (set, get) => ({
       identification: null,
 
-      setIdentification: (token, username, image, email) => {
+      setIdentification: ({ identificationObject }) => {
         set(() => ({
-          identification: {
-            token: token,
-            username: username,
-            image: image,
-            email: email,
-          },
+          identification: identificationObject,
         }));
         console.log("token set to: ", token);
       },

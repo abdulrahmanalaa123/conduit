@@ -16,7 +16,6 @@ const profileQuery = (username) => ({
 function Profile() {
   const params = useParams();
   const logged = useAuthStore((state) => state.identification);
-  const queryClient = useQueryClient();
 
   const {
     data: dataObject,
@@ -24,7 +23,7 @@ function Profile() {
     isError,
     error,
   } = useQuery(profileQuery(params.username));
-  console.log(dataObject);
+
   const [following, setFollowing] = useState(dataObject.profile.following);
   const [feedState, setFeedState] = useState("my");
   //this can be done as a custom hook but im a bit too lazy and woudl derail me a ton

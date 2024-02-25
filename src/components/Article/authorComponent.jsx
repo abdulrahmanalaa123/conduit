@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { LikeHook, followHook } from "../../hooks/booleanInteractionsHooks";
 import FollowButton from "../followbutton";
 import { useNavigate } from "react-router-dom";
