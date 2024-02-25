@@ -60,12 +60,9 @@ axiosInterface.interceptors.request.use((config) => {
 export function setupNavigationInterceptor(navigate) {
   axiosInterface.interceptors.response.use(
     (response) => {
-      console.log("this request is for", response.data);
       return response;
     },
     (error) => {
-      console.log("error", error);
-
       if (!error.response) {
         return Promise.reject({
           errors: { Network: ["error or Server Error"] },

@@ -26,6 +26,7 @@ function getFunction({ feedState }) {
 }
 
 //extracted as a custom hook for refactoring ease if the call of data in articlesform isnt the rigth thing to do
+//the only benefit of extracting the query to the home page is using the loader and i could use the loader as well without need to extract but too lazy
 function articlesQuery({ page, feed, author, tag }) {
   return useQuery({
     queryKey: [
