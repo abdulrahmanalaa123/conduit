@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 //i included hook calls here because all components need to share the same state
 //the problem is here now there are 2 function calls and 2 query invalidation but it works and ill leave it at that fuck it
 
-//TODO
-//figure a better way to duplicate components with the same shared instance
 function AuthorComponent({
   articleData,
   setArticleData,

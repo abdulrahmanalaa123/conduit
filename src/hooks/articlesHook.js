@@ -27,7 +27,6 @@ function getFunction({ feedState }) {
 
 //extracted as a custom hook for refactoring ease if the call of data in articlesform isnt the rigth thing to do
 function articlesQuery({ page, feed, author, tag }) {
-  console.log("if more than once then it re renders");
   return useQuery({
     queryKey: [
       feed,
@@ -40,7 +39,7 @@ function articlesQuery({ page, feed, author, tag }) {
     ],
     placeholderData: keepPreviousData,
     queryFn: ({ queryKey }) =>
-      //i can use the query function like this because of the conditional object creator
+      //i can use the query function like this because of the conditional querykey
       getFunction({
         feedState: feed,
       })(queryKey[1]),

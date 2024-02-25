@@ -26,11 +26,13 @@ const commentsQuery = (slug) => ({
 function Article() {
   const params = useParams();
   const logged = useAuthStore((state) => state.identification);
+
   const {
     data: article,
     isLoading: articleIsLoading,
     isError: articleIsError,
   } = useQuery(articleQuery(params.slug));
+
   const [articleData, setArticleData] = useState(article.article);
   const [following, setFollowing] = useState(articleData.author.following);
 
@@ -47,6 +49,7 @@ function Article() {
   }
   return (
     // className="font-sans"
+    //adding it would follow the style but i dont want to
     <>
       <div className="bg-slate-200">
         <div className="w-[70%] mx-auto flex flex-col gap-2 py-8 mb-8">

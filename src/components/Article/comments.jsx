@@ -8,16 +8,16 @@ import { deleteComment, getComments } from "../../api/commentsApi";
 
 // could add the comments query call directly here since all the loader did was intiialize the hook for the query
 //so wherever i call it wouldnt matter and it would make more sense to make the comments component contains the commentsHookCall
-
-//couldve added each query assignment but idont know the idiomatic way to do so so fuck it repetition it is
 const commentsQuery = (slug) => ({
   queryKey: ["comments", slug],
   queryFn: () => getComments({ slug }),
 });
-
 function Comments() {
   const params = useParams();
   const identification = useAuthStore((state) => state.identification);
+  //removed because its invoked by rerenders while calling articles to call it twice
+  //fact checked it doesnt so its better to leave it here to make this as a component of its own
+  //turns out the api doesnt return any comments if its not logged in
   const { data, isLoading, isError, error } = useQuery(
     commentsQuery(params.slug)
   );

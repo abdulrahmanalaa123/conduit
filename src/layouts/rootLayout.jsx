@@ -104,6 +104,8 @@ function RootLayout() {
                       queryClient.invalidateQueries({ queryKey: ["your"] });
                       queryClient.invalidateQueries({ queryKey: ["tagged"] });
                       navigate("/");
+                      //refreshing the page
+                      navigate(0);
                       logout();
                     }}
                   >

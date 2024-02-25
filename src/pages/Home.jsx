@@ -10,8 +10,6 @@ function Home() {
   const [selectedTag, setSelectedTag] = useState(null);
   const logged = useAuthStore((state) => state.identification);
 
-  console.log("home rerender");
-
   const {
     data: tags,
     isError: tagsIsError,

@@ -1,5 +1,5 @@
 import ArticleCard from "./articleCard";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ErrorComponent from "./errorComponent";
 import articlesQuery from "../hooks/articlesHook";
 
@@ -21,18 +21,29 @@ function ArticlesForm({ feedState, tag, author }) {
     isPlaceholderData,
   } = articlesQuery({ page, feed: feedState, author, tag });
 
+  useEffect(() => {
+    setPage(0);
+  }, [feedState]);
+
+  const pagesNo = Math.ceil(data.articlesCount / 10);
+
+  const pagesArray = isSuccess
+    ? [...Array(pagesNo).keys()].map((foo) => foo + 1)
+    : [];
+
+  //this didnt work i must make itt work so i used it with the method above fuck it
+  //the usememo method was lagging by 1 feedState each time
   // wanted to put this dependent on articlesCount but couldnt since its conditional on the current data state
   // and kept giving me an error Rendered more hooks than during the previous render or articlesCount not defined
-  console.log("data is:", data);
-  const pagesArray = useMemo(() => {
-    setPage(0);
-    if (isSuccess) {
-      const pagesNo = Math.ceil(data.articlesCount / 10);
-      const pagesArr = [...Array(pagesNo).keys()].map((foo) => foo + 1);
-      return pagesArr;
-    }
-    return [];
-  }, [feedState, isSuccess]);
+  // const pagesArray = useMemo(() => {
+  //   setPage(0);
+  //   if (isSuccess) {
+  //     const pagesNo = Math.ceil(data.articlesCount / 10);
+  //     const pagesArr = [...Array(pagesNo).keys()].map((foo) => foo + 1);
+  //     return pagesArr;
+  //   }
+  //   return [];
+  // }, [feedState, isSuccess]);
 
   if (isLoading) {
     return (

@@ -60,7 +60,7 @@ axiosInterface.interceptors.request.use((config) => {
 export function setupNavigationInterceptor(navigate) {
   axiosInterface.interceptors.response.use(
     (response) => {
-      console.log("only one request");
+      console.log("this request is for", response.data);
       return response;
     },
     (error) => {
@@ -86,5 +86,5 @@ export function errorListFormatting(errorData) {
   }
   return errorList;
 }
-// console.log(res.headers['authorization']);
+
 export default axiosInterface;
