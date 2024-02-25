@@ -29,6 +29,7 @@ function Settings() {
   async function onSubmit(data) {
     try {
       await editUser(data);
+      console.log("this runs");
       queryClient.invalidateQueries({
         queryKey: ["global"],
         refetchType: "active",
@@ -49,7 +50,6 @@ function Settings() {
         queryKey: ["favorited"],
         refetchType: "active",
       });
-
       navigate("/");
     } catch (error) {
       //The error came back wierd and i cant parse it and its their fault and i wotn work around it
