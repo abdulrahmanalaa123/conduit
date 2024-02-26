@@ -42,7 +42,7 @@ function AuthorComponent({
     favoriteArticle.mutate({ slug: articleData.slug });
   }
   return (
-    <div className="flex items-center">
+    <div className="flex items-center justify-center md:justify-start flex-wrap gap-2">
       <img
         src={articleData.author.image}
         alt="x"
@@ -62,7 +62,7 @@ function AuthorComponent({
         </p>
         <p className="text-xs text-slate-400">{formattedDate}</p>
       </div>
-      <div className="ml-4 flex place-items-center gap-1">
+      <div className="ml-4 flex items-center justify-center gap-1 flex-wrap">
         <FollowButton
           following={following}
           handleFollowing={handleFollowing}

@@ -29,13 +29,10 @@ function SignUp() {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4 p-8 ">
       <p className="text-slate-300 text-3xl font-bold">SignUp</p>
-      <Link to="/login" className="text-accentColor hover:underline">
-        Have an Account?
-      </Link>
 
       <form
         action="register "
-        className="flex flex-col gap-4 w-[30%] "
+        className="flex flex-col gap-4 w-[90%] sm:w-[30%] "
         onSubmit={handleSubmit(onSubmit)}
       >
         {errors.root &&
@@ -88,13 +85,17 @@ function SignUp() {
           placeholder="Password"
           className="border-2 border-accentColor w-full rounded-md px-4 h-14"
         />
-
-        <button
-          disabled={isSubmitting}
-          className="self-end text-xl disabled:opacity-50 bg-accentColor text-slate-500 font-bold px-6 py-3 rounded-md"
-        >
-          SignUp
-        </button>
+        <div className="w-full flex justify-between items-center gap-2">
+          <Link to="/login" className="text-accentColor hover:underline ">
+            Have an Account?
+          </Link>
+          <button
+            disabled={isSubmitting}
+            className="text-xl disabled:opacity-50 bg-accentColor text-slate-200 font-bold px-6 py-3 rounded-md whitespace-nowrap"
+          >
+            SignUp
+          </button>
+        </div>
       </form>
     </div>
   );

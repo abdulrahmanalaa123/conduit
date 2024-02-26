@@ -72,7 +72,7 @@ function ArticleCard({ article }) {
           />
           <div className="inline-block">
             <p
-              className="text-accentColor font-semibold hover:underline cursor-pointer"
+              className="text-accentColor font-semibold hover:underline cursor-pointer truncate text-ellipsis md:w-[30ch] w-[10ch]"
               onClick={() => {
                 navigate(`/profile/${currentArticle.author.username}`);
               }}
@@ -103,13 +103,13 @@ function ArticleCard({ article }) {
       </div>
       <div>
         <p
-          className="text-2xl text-slate-300  line-clamp-2 cursor-pointer"
+          className="text-lg sm:text-2xl text-slate-300  line-clamp-2 cursor-pointer"
           onClick={() => goToArticle()}
         >
           {currentArticle.title}
         </p>
         <p
-          className="mb-4 text-slate-500 line-clamp-2 cursor-pointer"
+          className="mb-4 text-sm zsm:text-base text-slate-500 line-clamp-2 cursor-pointer"
           onClick={() => goToArticle()}
         >
           {currentArticle.body}
@@ -122,7 +122,7 @@ function ArticleCard({ article }) {
         >
           Read More
         </span>
-        <div className="flex flex-row justify-around text-greyShade gap-1 flex-wrap">
+        <div className="flex flex-row justify-end text-greyShade gap-1 flex-wrap">
           {currentArticle.tagList.map((tag, index) => {
             return (
               <div

@@ -45,7 +45,7 @@ function OwnAuthorComponent({ articleData }) {
     deletion.mutate({ slug: articleData.slug });
   }
   return (
-    <div className="flex items-center">
+    <div className="flex items-center justify-center md:justify-start flex-wrap gap-2">
       <img
         src={articleData.author.image}
         alt="x"
@@ -65,7 +65,7 @@ function OwnAuthorComponent({ articleData }) {
         </p>
         <p className="text-xs text-slate-400">{formattedDate}</p>
       </div>
-      <div className="ml-4 flex place-items-center gap-1">
+      <div className="ml-4 flex items-center justify-center gap-1 flex-wrap">
         <button
           className={` text-sm px-2 py-1 rounded-md group border-2 text-slate-700 border-slate-700 whitespace-nowrap flex items-center gap-1 hover:bg-slate-700 hover:text-slate-200`}
           onClick={() => {

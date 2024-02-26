@@ -67,7 +67,10 @@ export function followHook({ following, setFollowing, username }) {
         queryKey: ["profile", username],
         exact: true,
       });
-      queryClient.invalidateQueries({ queryKey: ["your"] });
+      queryClient.invalidateQueries({
+        queryKey: ["your"],
+        refetchType: "active",
+      });
     },
     onError() {
       setFollowing(!following);

@@ -40,14 +40,14 @@ function AddComment() {
         className="p-4 resize-y w-full rounded-t-md"
         ref={commentBody}
       ></textarea>
-      <div className="p-4 flex justify-between bg-slate-200 rounded-b-md">
+      <div className="md:p-4 p-2 flex justify-between bg-slate-200 rounded-b-md">
         <img
           src={identification.image}
           alt="profile-image"
           className="size-8 rounded-full"
         />
         <button
-          className="bg-accentColor text-slate-200 text-sm px-2 rounded-md font-bold"
+          className="bg-accentColor text-slate-200 md:text-base text-sm px-2 rounded-md font-bold"
           onClick={() => {
             handlePosting();
           }}

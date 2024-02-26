@@ -61,7 +61,7 @@ function Settings() {
   }
   return (
     <form
-      className="flex flex-col mx-auto justify-center  gap-4 h-full mt-12 w-[50%]"
+      className="flex flex-col mx-auto justify-center  gap-4 h-full mt-12 w-[90%] sm:w-[50%]"
       onSubmit={handleSubmit(onSubmit)}
     >
       {errors.root &&

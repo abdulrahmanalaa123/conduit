@@ -30,13 +30,10 @@ function SignIn() {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4 p-8 ">
       <p className="text-slate-300 text-3xl font-bold">SignIn</p>
-      <Link to="/register" className="text-accentColor hover:underline">
-        Need an Account?
-      </Link>
 
       <form
         action="register "
-        className="flex flex-col gap-4 w-[30%] "
+        className="flex flex-col gap-4 w-[80%] sm:w-[30%] "
         onSubmit={handleSubmit(onSubmit)}
       >
         {errors.root &&
@@ -84,12 +81,17 @@ function SignIn() {
           className="border-2 border-accentColor w-full rounded-md px-4 h-14"
         />
 
-        <button
-          disabled={isSubmitting}
-          className="self-end text-xl disabled:opacity-50 bg-accentColor text-slate-500 font-bold px-6 py-3 rounded-md"
-        >
-          SignIn
-        </button>
+        <div className="flex justify-between items-center">
+          <Link to="/register" className="text-accentColor hover:underline">
+            Need an Account?
+          </Link>
+          <button
+            disabled={isSubmitting}
+            className="text-xl disabled:opacity-50 bg-accentColor text-slate-200 font-bold px-6 py-3 rounded-md"
+          >
+            SignIn
+          </button>
+        </div>
       </form>
     </div>
   );

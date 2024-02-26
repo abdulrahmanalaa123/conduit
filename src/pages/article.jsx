@@ -51,8 +51,8 @@ function Article() {
     //adding it would follow the style but i dont want to
     <>
       <div className="bg-slate-200">
-        <div className="w-[70%] mx-auto flex flex-col gap-2 py-8 mb-8">
-          <p className="text-[44px] font-bold text-slate-700">
+        <div className="md:w-[70%] w-[90%] mx-auto flex flex-col gap-2 py-8 mb-8">
+          <p className="md:text-[44px] text-2xl text-center md:text-start font-bold text-slate-700">
             {articleData.title}
           </p>
           {/* the extraction of this component made me declare 2 hooks and 2 states for each although they can share both */}
@@ -68,9 +68,11 @@ function Article() {
           )}
         </div>
       </div>
-      <div className="w-[70%] mx-auto">
+      <div className="md:w-[70%] w-[90%] mx-auto">
         <div className="border-b border-greyShade">
-          <p className="text-slate-200 text-lg mb-8">{articleData.body}</p>
+          <p className="text-slate-200 md:text-lg text-sm mb-8">
+            {articleData.body}
+          </p>
           <div className="mb-8 flex flex-row text-greyShade gap-1">
             {articleData.tagList.map((tag, index) => {
               return (

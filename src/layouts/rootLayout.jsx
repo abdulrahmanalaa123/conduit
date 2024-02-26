@@ -6,7 +6,7 @@ import useAuthStore from "../stores/auth";
 import { useQueryClient } from "@tanstack/react-query";
 
 function createNavLinkStyle(isActive) {
-  return `hover:text-accentColor font-bold    ${
+  return `hover:text-accentColor font-bold  ${
     isActive ? "text-accentColor font-bold" : "text-slate-400"
   }`;
 }
@@ -23,7 +23,7 @@ function RootLayout() {
     <>
       <header>
         <nav className=" bg-slate-700 ">
-          <div className="flex py-4 justify-between items-center px-8 flex-wrap w-[70%] mx-auto">
+          <div className="flex py-4 md:justify-between justify-center items-center px-2 flex-wrap md:w-[70%] w-full mx-auto">
             <p
               className="text-accentColor font-bold text-2xl cursor-pointer"
               onClick={() => {
@@ -32,7 +32,7 @@ function RootLayout() {
             >
               conduit
             </p>
-            <ul className="flex flex-row items-center gap-4 text-black flex-wrap">
+            <ul className="flex flex-row items-center mt-2 md:mt-0 justify-center gap-4 text-black flex-wrap">
               <NavLink
                 to="/"
                 className={({ isActive }) => createNavLinkStyle(isActive)}

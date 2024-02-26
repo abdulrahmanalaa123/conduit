@@ -61,7 +61,7 @@ function Profile() {
         {logged.username === params.username ? (
           <Link
             to="/settings"
-            className="mt-3 border-2 border-slate-600 text-slate-600 rounded-md px-2 self-end mr-[15%] hover:bg-slate-500 cursor-pointer flex items-center"
+            className="mt-3 border-2 border-slate-600 text-slate-600 rounded-md px-2 self-center sm:self-end sm:mr-[15%]  hover:bg-slate-500 cursor-pointer flex items-center"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

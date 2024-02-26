@@ -21,11 +21,13 @@ function Home() {
     <div>
       <div className="bg-accentColor p-8 mb-8 shadow-inner flex flex-col items-center  shadow-black">
         <p className="text-[56px] font-bold drop-shadow-md">conduit</p>
-        <p className="text-2xl mt-2">A place to share your knowledge</p>
+        <p className="text-center text-2xl mt-2">
+          A place to share your knowledge
+        </p>
       </div>
 
       <div className="w-[70%] mx-auto flex flex-row gap-8 flex-wrap">
-        <div className="w-[69%]">
+        <div className="md:w-[69%] w-full">
           <nav>
             {logged && (
               <button
@@ -75,8 +77,8 @@ function Home() {
             ></ArticlesForm>
           </div>
         </div>
-        <div className="bg-slate-700 pt-1 px-2 pb-2 rounded-md flex flex-col gap-1 w-1/4 h-min">
-          <p>Popular tags</p>
+        <div className="bg-slate-700 pt-1 px-4 pb-4 rounded-md flex flex-col gap-1 md:w-1/4 w-full h-min">
+          <p className="md:text-lg text-sm mb-2">Popular tags</p>
           <div className="flex flex-row gap-2 flex-wrap">
             {tagsLoading ? (
               <p>Loading tags.....</p>
@@ -90,7 +92,7 @@ function Home() {
                     tag === selectedTag
                       ? "bg-slate-500 underline text-slate-400"
                       : "bg-slate-300 text-slate-800"
-                  }  hover:bg-slate-500  rounded-full px-2  text-xs`}
+                  }  hover:bg-slate-500  rounded-full px-2  md:text-base text-sm`}
                   onClick={() => {
                     if (selectedTag === tag) {
                       setSelectedTag(null);

@@ -72,27 +72,27 @@ function Comments() {
       {data.comments.map((comment) => {
         return (
           <div key={comment.id} className=" flex flex-col my-4">
-            <div className="bg-[#3B3B3B] text-slate-200 p-4 rounded-t-md ">
+            <div className="bg-[#3B3B3B] text-slate-200 p-4 rounded-t-md md:text-base text-sm ">
               {comment.body}
             </div>
-            <div className="bg-slate-200 rounded-b-md flex justify-between p-4 text-slate-700">
-              <div>
+            <div className="bg-slate-200 rounded-b-md flex justify-between md:p-4 p-2 text-slate-700">
+              <div className="flex gap-1 items-center">
                 <img
                   src={comment.author.image}
                   alt=""
                   className="size-8 rounded-full mr-1 inline-block"
                 />
-                <span
-                  className="text-slate-700 hover:underline cursor-pointer "
+                <p
+                  className="text-slate-700 md:text-base text-sm  truncate text-ellipsis md:w-[20ch] w-[10ch] hover:underline cursor-pointer "
                   onClick={() => {
                     navigate(`/profile/${comment.author.username}`);
                   }}
                 >
                   {comment.author.username}
-                </span>
+                </p>
               </div>
               <div className="flex items-center">
-                <span className="text-slate-700 mr-2">
+                <span className="text-slate-700 md:mr-2 md:text-base text-sm ">
                   {new Date(comment.updatedAt).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
