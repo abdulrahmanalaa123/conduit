@@ -66,7 +66,7 @@ function SignIn() {
             },
           })}
           placeholder="Email"
-          className="border-2 border-accentColor w-full rounded-md px-4 h-14"
+          className="border-2 border-accentColor bg-[#3B3B3B] w-full rounded-md px-4 h-14"
         />
         <input
           type="password"
@@ -78,7 +78,7 @@ function SignIn() {
             },
           })}
           placeholder="Password"
-          className="border-2 border-accentColor w-full rounded-md px-4 h-14"
+          className="border-2 border-accentColor bg-[#3B3B3B] w-full rounded-md px-4 h-14"
         />
 
         <div className="flex justify-between items-center">

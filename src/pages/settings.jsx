@@ -81,32 +81,32 @@ function Settings() {
         type="text"
         {...register("user.image", { required: true })}
         placeholder="Url of Profile Picture"
-        className="p-4 rounded-md self-stretch"
+        className="p-4 rounded-md self-stretch bg-[#3B3B3B]"
       />
       <input
         type="text"
         {...register("user.username", { required: true })}
         placeholder="Your Name"
-        className="p-4 rounded-md self-stretch"
+        className="p-4 rounded-md self-stretch bg-[#3B3B3B]"
       />
       <textarea
         type="text"
         rows="5"
         {...register("user.bio")}
         placeholder="Write a short bio about yourself"
-        className="p-4 rounded-md self-stretch"
+        className="p-4 rounded-md self-stretch bg-[#3B3B3B]"
       />
       <input
         type="text"
         {...register("user.email", { required: true })}
         placeholder="Email"
-        className="p-4 rounded-md self-stretch"
+        className="p-4 rounded-md self-stretch bg-[#3B3B3B]"
       />
       <input
         type="text"
         {...register("user.password")}
         placeholder="Password"
-        className="p-4 rounded-md self-stretch"
+        className="p-4 rounded-md self-stretch bg-[#3B3B3B]"
       />
       <button
         className="self-end px-6 py-3 disabled:opacity-50 bg-accentColor rounded-md text-xl"

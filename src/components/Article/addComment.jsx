@@ -37,7 +37,7 @@ function AddComment() {
         rows="5"
         placeholder="write a comment"
         required
-        className="p-4 resize-y w-full rounded-t-md"
+        className="p-4 resize-y w-full rounded-t-md bg-[#3B3B3B]"
         ref={commentBody}
       ></textarea>
       <div className="md:p-4 p-2 flex justify-between bg-slate-200 rounded-b-md">

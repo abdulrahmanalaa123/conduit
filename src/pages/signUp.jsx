@@ -57,7 +57,7 @@ function SignUp() {
           type="text"
           {...register("user.username", { required: true })}
           placeholder="Username"
-          className="border-2 border-accentColor w-full rounded-md px-4 h-14"
+          className="border-2 border-accentColor bg-[#3B3B3B] w-full rounded-md px-4 h-14"
         />
         <input
           type="text"
@@ -71,7 +71,7 @@ function SignUp() {
             },
           })}
           placeholder="Email"
-          className="border-2 border-accentColor w-full rounded-md px-4 h-14"
+          className="border-2 border-accentColor bg-[#3B3B3B] w-full rounded-md px-4 h-14"
         />
         <input
           type="password"
@@ -83,7 +83,7 @@ function SignUp() {
             },
           })}
           placeholder="Password"
-          className="border-2 border-accentColor w-full rounded-md px-4 h-14"
+          className="border-2 border-accentColor bg-[#3B3B3B] w-full rounded-md px-4 h-14"
         />
         <div className="w-full flex justify-between items-center gap-2">
           <Link to="/login" className="text-accentColor hover:underline ">

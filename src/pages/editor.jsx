@@ -110,13 +110,13 @@ function Editor() {
           required: true,
         })}
         placeholder="Article title"
-        className="p-4 rounded-md self-stretch"
+        className="p-4 rounded-md self-stretch bg-[#3B3B3B]"
       />
       <input
         type="text"
         {...register("article.description")}
         placeholder="What's this article about"
-        className="p-4 rounded-md self-stretch"
+        className="p-4 rounded-md self-stretch bg-[#3B3B3B]"
       />
       <textarea
         type="text"
@@ -125,13 +125,13 @@ function Editor() {
           required: true,
         })}
         placeholder="Write your aricle (in Markdown)"
-        className="p-4 rounded-md self-stretch"
+        className="p-4 rounded-md self-stretch bg-[#3B3B3B]"
       />
       <input
         type="text"
         {...register("article.tagList")}
         placeholder="Enter tags"
-        className="p-4 rounded-md self-stretch"
+        className="p-4 rounded-md self-stretch bg-[#3B3B3B]"
       />
       {watchTags && (
         <div className="flex gap-2 flex-wrap">
