@@ -15,7 +15,6 @@ const useAuthStore = create(
         set(() => ({
           identification: identificationObject,
         }));
-        console.log("token set to: ", token);
       },
       deleteIdentification: () => {
         if (get().identification) {
