@@ -4,7 +4,7 @@ import {
   Route,
   createRoutesFromElements,
 } from "react-router-dom";
-import RootLayout from "./layouts/rootLayout";
+import RootLayout from "./layouts/RootLayout";
 import Home from "./pages/Home";
 import SignIn from "./pages/signIn";
 import SignUp from "./pages/signUp";
@@ -12,15 +12,9 @@ import Settings from "./pages/settings";
 import Editor from "./pages/editor";
 import Profile, { loader } from "./pages/profile";
 import Article, { articlesLoader } from "./pages/article";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const queryClient = new QueryClient({
-  queries: {
-    refetchOnWindowFocus: false,
-    retry: false,
-  },
-});
+import { queryClient } from "./lib/queryClient";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

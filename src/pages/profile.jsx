@@ -1,17 +1,12 @@
 import { Link, useParams } from "react-router-dom";
-import { getProfile, followUser, unfollowUser } from "../api/profileApi";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import ProfileError from "../components/Profile/profileErrorPage";
+import ProfileError from "../components/Profile/ProfileErrorPage";
 import useAuthStore from "../stores/auth";
 import { useState } from "react";
-import ArticlesForm from "../components/articleForm";
-import FollowButton from "../components/followbutton";
-import { followHook } from "../hooks/booleanInteractionsHooks";
-
-const profileQuery = (username) => ({
-  queryKey: ["profile", username],
-  queryFn: () => getProfile(username),
-});
+import ArticlesLayout from "../layouts/ArticlesLayout";
+import FollowButton from "../components/Followbutton";
+import followHook from "../api/profile/follow";
+import getProfileQuery from "../api/profile/getProfile";
+import profileQuery from "../queries/profileQuery";
 
 function Profile() {
   const params = useParams();
@@ -22,12 +17,12 @@ function Profile() {
     isLoading,
     isError,
     error,
-  } = useQuery(profileQuery(params.username));
+  } = getProfileQuery(params.username);
 
   const [following, setFollowing] = useState(dataObject.profile.following);
   const [feedState, setFeedState] = useState("my");
   //this can be done as a custom hook but im a bit too lazy and woudl derail me a ton
-  const followSelectedUser = followHook({
+  const { mutate: followSelectedUser } = followHook({
     following,
     setFollowing,
     username: dataObject.profile.username,
@@ -46,7 +41,7 @@ function Profile() {
   }
 
   function handleFollowing() {
-    followSelectedUser.mutate(dataObject.profile.username);
+    followSelectedUser(dataObject.profile.username);
   }
 
   return (
@@ -119,10 +114,10 @@ function Profile() {
             Favorited Articles
           </button>
         </nav>
-        <ArticlesForm
+        <ArticlesLayout
           feedState={feedState}
           author={dataObject.profile.username}
-        ></ArticlesForm>
+        ></ArticlesLayout>
       </div>
     </>
   );

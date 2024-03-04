@@ -1,8 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import { editArticle, createArticle } from "../api/articleApi";
-import { errorListFormatting } from "../lib/axios";
+import createEditArticleHook from "../api/articles/createEditArticleHook";
 
 function Editor() {
   const location = useLocation();
@@ -29,42 +27,11 @@ function Editor() {
     },
   });
   const watchTags = watch("article.tagList");
-  const queryClient = useQueryClient();
 
-  const submittingHook = useMutation({
-    mutationFn: location.state ? editArticle : createArticle,
-    onSuccess(data) {
-      queryClient.invalidateQueries({
-        queryKey: ["global"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["your"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["tagged"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["my"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["favorited"],
-        refetchType: "active",
-      });
-
-      queryClient.setQueryData(["article", data.article.slug], data);
-      navigate(`/article/${data.article.slug}`);
-    },
-    onError(error) {
-      const errorList = errorListFormatting(error);
-
-      setError("root", {
-        message: errorList,
-      });
-    },
+  const { mutate: EditCreateArticle } = createEditArticleHook({
+    state: location.state,
+    setError: setError,
+    navigate: navigate,
   });
   function onSubmit(data) {
     const modifiedData = { ...data };
@@ -73,12 +40,11 @@ function Editor() {
       .split(" ")
       .filter((str) => str.trim() !== "");
     if (location.state) {
-      console.log({ ...location.state, ...modifiedData.article });
-      submittingHook.mutate({
+      EditCreateArticle({
         data: { article: { ...location.state, ...modifiedData.article } },
       });
     } else {
-      submittingHook.mutate({ data: modifiedData });
+      EditCreateArticle({ data: modifiedData });
     }
   }
   function deleteTag(e, tag) {
@@ -89,6 +55,7 @@ function Editor() {
     const newString = tagsListString.replace(tag, "");
     setValue("article.tagList", newString);
   }
+
   return (
     <form
       className="flex flex-col mx-auto justify-center  gap-4 h-full mt-12 w-[90%] sm:w-[50%]"

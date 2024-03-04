@@ -1,10 +1,10 @@
-import ArticleCard from "./articleCard";
-import { useEffect, useMemo, useState } from "react";
-import ErrorComponent from "./errorComponent";
-import articlesQuery from "../hooks/articlesHook";
+import ArticleCard from "../components/ArticleCard";
+import { useEffect, useState } from "react";
+import ErrorComponent from "../components/ErrorComponent";
+import articlesQuery from "../api/articles/paginatedArticles";
 
 //benefit of getting the hook outside and passing the query is the use of loader of home
-function ArticlesForm({ feedState, tag, author }) {
+function ArticlesLayout({ feedState, tag, author }) {
   const [page, setPage] = useState(0);
 
   //TODO
@@ -96,4 +96,4 @@ function ArticlesForm({ feedState, tag, author }) {
   );
 }
 
-export default ArticlesForm;
+export default ArticlesLayout;

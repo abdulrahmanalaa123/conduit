@@ -1,26 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { getArticle } from "../api/articleApi";
 import { useParams } from "react-router-dom";
-import { getComments } from "../api/commentsApi";
-import AuthorComponent from "../components/Article/authorComponent";
-import Comments from "../components/Article/comments";
+import AuthorComponent from "../components/Article/AuthorComponent";
+import Comments from "../components/Article/Comments";
 import { useState } from "react";
-import OwnAuthorComponent from "../components/Article/ownAuthorComponent";
+import OwnAuthorComponent from "../components/Article/OwnAuthorComponent";
 import useAuthStore from "../stores/auth";
+import commentsQuery from "../queries/commentsQuery";
+import articleQuery from "../queries/aricleQuery";
 
 //could optimize this whole page sicne loading it will be after loading results from a feed
 //instead of loading and passing a mutation function and everything
 //although the consequences would be cringe the first is props hell
 //second is probably a bunch of inconsistencies and would be hell to solve rather than this method
-
-const articleQuery = (slug) => ({
-  queryKey: ["article", slug],
-  queryFn: () => getArticle({ slug }),
-});
-const commentsQuery = (slug) => ({
-  queryKey: ["comments", slug],
-  queryFn: () => getComments({ slug }),
-});
 
 function Article() {
   const params = useParams();

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { signUp } from "../api/authenticationApi";
+import { signUp } from "../api/auth/signUp";
 import { useForm } from "react-hook-form";
 import { errorListFormatting } from "../lib/axios";
 

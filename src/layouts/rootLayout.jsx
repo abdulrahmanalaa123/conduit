@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { setupNavigationInterceptor } from "../lib/axios";
-import { logout } from "../api/authenticationApi";
 import useAuthStore from "../stores/auth";
-import { useQueryClient } from "@tanstack/react-query";
+import { queryClient } from "../lib/queryClient";
+import { logout } from "../api/auth/identification";
 
 function createNavLinkStyle(isActive) {
   return `hover:text-accentColor font-bold  ${
@@ -14,7 +14,6 @@ function createNavLinkStyle(isActive) {
 function RootLayout() {
   const navigate = useNavigate();
   const logged = useAuthStore((state) => state.identification);
-  const queryClient = useQueryClient();
   // setting up a register navigation once starting the app since this is the first page
   useEffect(() => {
     setupNavigationInterceptor(navigate);

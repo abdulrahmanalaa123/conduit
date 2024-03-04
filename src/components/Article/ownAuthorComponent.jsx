@@ -1,37 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { deleteArticle } from "../../api/articleApi";
+import deleteArticleHook from "../../api/articles/deleteArticle";
 
 function OwnAuthorComponent({ articleData }) {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
-  const deletion = useMutation({
-    mutationFn: deleteArticle,
-    onSuccess() {
-      queryClient.invalidateQueries({
-        queryKey: ["global"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["your"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["tagged"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["my"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["favorited"],
-        refetchType: "active",
-      });
-      navigate("/");
-    },
-  });
+  const { mutate: deletion } = deleteArticleHook(navigate);
   const formattedDate = new Date(articleData.updatedAt).toLocaleDateString(
     "en-US",
     {
@@ -42,7 +15,7 @@ function OwnAuthorComponent({ articleData }) {
   );
 
   function handleDeletion() {
-    deletion.mutate({ slug: articleData.slug });
+    deletion({ slug: articleData.slug });
   }
   return (
     <div className="flex items-center justify-center md:justify-start flex-wrap gap-2">

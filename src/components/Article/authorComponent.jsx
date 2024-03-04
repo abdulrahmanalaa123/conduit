@@ -1,5 +1,6 @@
-import { LikeHook, followHook } from "../../hooks/booleanInteractionsHooks";
-import FollowButton from "../followbutton";
+import likeHook from "../../api/articles/likeArticle";
+import followHook from "../../api/profile/follow";
+import FollowButton from "../Followbutton";
 import { useNavigate } from "react-router-dom";
 
 //i included hook calls here because all components need to share the same state
@@ -17,12 +18,12 @@ function AuthorComponent({
   // idk how its 3 articles where 2 was working in the when the component was in article Page
   //   3 article.article.article
 
-  const followAuthor = followHook({
+  const { mutate: followAuthor } = followHook({
     following,
     setFollowing,
     username: articleData.author.username,
   });
-  const favoriteArticle = LikeHook({
+  const { mutate: favoriteArticle } = likeHook({
     currentArticle: articleData,
     setCurrentArticle: setArticleData,
   });
@@ -36,10 +37,10 @@ function AuthorComponent({
     }
   );
   function handleFollowing() {
-    followAuthor.mutate(articleData.author.username);
+    followAuthor(articleData.author.username);
   }
   function handleFavoriteArticle() {
-    favoriteArticle.mutate({ slug: articleData.slug });
+    favoriteArticle({ slug: articleData.slug });
   }
   return (
     <div className="flex items-center justify-center md:justify-start flex-wrap gap-2">

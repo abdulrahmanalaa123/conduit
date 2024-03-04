@@ -1,8 +1,6 @@
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { favorite, unFavorite } from "../api/articleApi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LikeHook } from "../hooks/booleanInteractionsHooks";
+import likeHook from "../api/articles/likeArticle";
 
 //TODO
 //could be improved by just one favorite state instead of readign the whole article as a staet
@@ -16,7 +14,10 @@ function ArticleCard({ article }) {
 
   const navigate = useNavigate();
 
-  const favoriteArticle = LikeHook({ currentArticle, setCurrentArticle });
+  const { mutate: favoriteArticle } = likeHook({
+    currentArticle,
+    switchState: switchState,
+  });
   // const unfavoriteArticle = useMutation({
   //   mutationFn: unFavorite,
   //   onMutate: () => {
@@ -44,11 +45,22 @@ function ArticleCard({ article }) {
     // } else {
     //   favoriteArticle.mutate({ slug: currentArticle.slug });
     // }
-    favoriteArticle.mutate({ slug: currentArticle.slug });
+    favoriteArticle({ slug: currentArticle.slug });
   }
 
   function goToArticle() {
     navigate(`/article/${currentArticle.slug}`);
+  }
+
+  function switchState() {
+    const newArticle = {
+      ...currentArticle,
+      favorited: !currentArticle.favorited,
+      favoritesCount: currentArticle.favorited
+        ? currentArticle.favoritesCount - 1
+        : currentArticle.favoritesCount + 1,
+    };
+    setCurrentArticle(newArticle);
   }
   const formattedDate = new Date(currentArticle.updatedAt).toLocaleDateString(
     "en-US",

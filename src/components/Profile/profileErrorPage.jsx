@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ErrorComponent from "../errorComponent";
+import ErrorComponent from "../ErrorComponent";
 export default function ProfileError(error) {
   //   const error = useRouteError();
 

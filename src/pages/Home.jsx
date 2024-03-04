@@ -1,9 +1,8 @@
-import ArticlesForm from "../components/articleForm";
 import { useState } from "react";
 import useAuthStore from "../stores/auth";
-import { useQuery } from "@tanstack/react-query";
-import { getTags } from "../api/tagsFetching";
-import ErrorComponent from "../components/errorComponent";
+import { getTagsQuery } from "../api/tags/getTags";
+import ErrorComponent from "../components/ErrorComponent";
+import ArticlesLayout from "../layouts/ArticlesLayout";
 
 function Home() {
   const [feedState, setFeedState] = useState("global");
@@ -15,7 +14,7 @@ function Home() {
     isError: tagsIsError,
     isLoading: tagsLoading,
     error: tagsError,
-  } = useQuery({ queryKey: ["tags"], queryFn: getTags });
+  } = getTagsQuery();
 
   return (
     <div>
@@ -71,10 +70,10 @@ function Home() {
             )}
           </nav>
           <div>
-            <ArticlesForm
+            <ArticlesLayout
               feedState={feedState}
               tag={selectedTag}
-            ></ArticlesForm>
+            ></ArticlesLayout>
           </div>
         </div>
         <div className="bg-slate-700 pt-1 px-4 pb-4 rounded-md flex flex-col gap-1 md:w-1/4 w-full h-min">

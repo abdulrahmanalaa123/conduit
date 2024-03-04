@@ -1,42 +1,30 @@
 import useAuthStore from "../../stores/auth";
-import ErrorComponent from "../errorComponent";
+import ErrorComponent from "../ErrorComponent";
 import { Link, useNavigate } from "react-router-dom";
-import AddComment from "./addComment";
+import AddComment from "./AddComment";
 import { useParams } from "react-router-dom";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteComment, getComments } from "../../api/commentsApi";
+import deleteCommentHook from "../../api/comments/deleteComments";
+import getCommentsHook from "../../api/comments/getComments";
 
 // could add the comments query call directly here since all the loader did was intiialize the hook for the query
 //so wherever i call it wouldnt matter and it would make more sense to make the comments component contains the commentsHookCall
-const commentsQuery = (slug) => ({
-  queryKey: ["comments", slug],
-  queryFn: () => getComments({ slug }),
-});
+
 function Comments() {
-  const params = useParams();
+  const slug = useParams().slug;
   const identification = useAuthStore((state) => state.identification);
   //removed because its invoked by rerenders while calling articles to call it twice
   //fact checked it doesnt so its better to leave it here to make this as a component of its own
   //turns out the api doesnt return any comments if its not logged in
-  const { data, isLoading, isError, error } = useQuery(
-    commentsQuery(params.slug)
-  );
+  const { data, isLoading, isError, error } = getCommentsHook({
+    slug: slug,
+  });
 
-  const queryClient = useQueryClient();
   // for ease of access
   //could use set state but i feel like its better to only use invalidating queries for it like
   //the comments posting
   const navigate = useNavigate();
 
-  const removeComment = useMutation({
-    mutationFn: deleteComment,
-    onSuccess() {
-      queryClient.invalidateQueries({
-        queryKey: ["comments", params.slug],
-        exact: true,
-      });
-    },
-  });
+  const { mutate: removeComment } = deleteCommentHook({ slug: slug });
 
   if (isLoading) {
     return (
@@ -51,7 +39,7 @@ function Comments() {
   }
 
   function handleDeletion(id) {
-    removeComment.mutate({ slug: params.slug, id: id });
+    removeComment({ slug: slug, id: id });
   }
   return (
     <div className="w-[70%] mx-auto self-start">

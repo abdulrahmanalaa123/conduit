@@ -1,13 +1,12 @@
 import { useForm } from "react-hook-form";
 import useAuthStore from "../stores/auth";
-import { editUser } from "../api/authenticationApi";
-import { useQueryClient } from "@tanstack/react-query";
+import { editUser } from "../api/auth/updateUser";
 import { errorListFormatting } from "../lib/axios";
 import { useNavigate } from "react-router-dom";
+import invalidateFetches from "../lib/invalidateFetches";
 
 function Settings() {
   const identification = useAuthStore((state) => state.identification);
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const {
     register,
@@ -29,27 +28,9 @@ function Settings() {
   async function onSubmit(data) {
     try {
       await editUser(data);
-      queryClient.invalidateQueries({
-        queryKey: ["global"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["your"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["tagged"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["my"],
-        refetchType: "active",
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["favorited"],
-        refetchType: "active",
-      });
+      invalidateFetches();
       navigate("/");
+      navigate(0);
     } catch (error) {
       //The error came back wierd and i cant parse it and its their fault and i wotn work around it
       const errorList = errorListFormatting(error);
